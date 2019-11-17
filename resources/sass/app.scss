@@ -1,0 +1,62 @@
+@import './bootstrap/bootstrap.scss';
+
+//
+body {
+    background-color: #e6e5f4;
+}
+
+.navbar {
+    background-color: #f7f6f9;
+    .navbar-nav {
+        .nav-item {
+            font-weight: 500;
+            .nav-link {
+                color: #242425;
+                .fas {
+                    color: #7f7f7f;
+                }
+            }
+        }
+        &.button {
+            .nav-item {
+                border: solid 1px transparent;
+                border-radius: 5px;
+                .nav-link {
+                    padding: .5rem 1rem;
+                }
+                &.active {
+                    background-color: fade-out(#2c7aff, 0.8);
+                    border-color: fade-out(#2c7aff, 0.9);
+                    .nav-link {
+                        color: #2c7aff;
+                        .fas {
+                            color: #2c7aff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.post-item {
+    .featured-image {
+        width: 250px;
+        border-radius: 5px;
+        background-size: cover;
+        background-position: center center;
+        flex-shrink: 0;
+    }
+    .content {
+        width: 100%;
+        padding: 0 .5rem;
+        min-height: 180px;
+        .title {
+
+        }
+        .excerpt {
+            text-align: justify;
+            height: 100px;
+        }
+    }
+}

@@ -11,6 +11,8 @@
                         <div class="content">
                             <h4 class="title">{{$post->title}}</h4>
                             <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
+                            <p>{{$post->name}}</p>
+                            <p>{{$post->avatar}}</p>
                         </div>
                     </div>
                 </div>
@@ -21,8 +23,8 @@
                     <div class="card-body">
                         <h4>Get Weekly updates</h4>
                         <p>Join 172,400 photographers who get useful photo tips from our newsletter</p>
-                        <div class="border p-2 d-flex rounded">
-                            <input class="form-control border-0" placeholder="Your Email" />
+                        <div class="border p-2 d-flex rounded bg-light">
+                            <input class="form-control border-0 bg-transparent" placeholder="Your Email" />
                             <button class="btn btn-primary">Subscribe</button>
                         </div>
                         {{-- <div class="input-group mb-3">

@@ -21,6 +21,18 @@
                 
             </ul>
             @if(Auth::check())
+                <ul class="navbar-nav ml-auto user-navs">
+                    <li class="nav-item ml-3">
+                        <button class="btn btn-primary"><small class="fas fa-camera mr-2"></small> Upload</button>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <i class="fas fa-bell p-2 color-light"></i>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <div class="avatar" style="background-image: url({{ url('storage/'.Auth::user()->avatar) }})" ></div>
+                    </li>
+                <ul>
+            @else
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#"> <small class="fas fa-key"></small> Login</a>

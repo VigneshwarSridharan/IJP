@@ -26,7 +26,7 @@ body {
                 }
                 &.active {
                     background-color: fade-out(#2c7aff, 0.8);
-                    border-color: fade-out(#2c7aff, 0.9);
+                    border-color: #B8CEF4;
                     .nav-link {
                         color: #2c7aff;
                         .fas {
@@ -37,12 +37,22 @@ body {
             }
         }
     }
+    .user-navs {
+        .avatar {
+            height: 40px;
+            width: 40px;
+            background-size: cover;
+            background-position: center center;
+            border-radius: 50%;
+            margin: 0 .5rem;
+        }
+    }
 }
 
 .post-item {
     .featured-image {
         width: 250px;
-        border-radius: 5px;
+        border-radius: 8px;
         background-size: cover;
         background-position: center center;
         flex-shrink: 0;

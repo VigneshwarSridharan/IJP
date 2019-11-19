@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use \TCG\Voyager\Models\Post;
 
 class SiteController extends Controller
@@ -85,7 +86,12 @@ class SiteController extends Controller
     }
 
     public function home() {
-        $Posts = Post::all();
+        // $Posts = Post::all();
+        $Posts  = DB::table('posts')
+                    ->join('users', 'users.id', '=', 'posts.author_id')
+                    ->select('posts.*', 'users.name', 'users.avatar')
+                    ->where('posts.status','=','PUBLISHED')
+                    ->get();
 
         return view('welcome')->with('posts',$Posts);
 

@@ -17,6 +17,12 @@ use \TCG\Voyager\Models\Post;
 
 Route::get('/', 'SiteController@home');
 
+Route::get('/logout', function() {
+    Auth::logout();
+
+    return redirect('/');
+});
+
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

@@ -28,14 +28,20 @@
                     <li class="nav-item ml-3">
                         <i class="fas fa-bell p-2 color-light"></i>
                     </li>
-                    <li class="nav-item ml-3">
-                        <div class="avatar" style="background-image: url({{ url('storage/'.Auth::user()->avatar) }})" ></div>
+                    <li class="nav-item dropdown ml-3">
+                        <a class="nav-link dropdown-toggle avatar" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="background-image: url({{ url('storage/'.Auth::user()->avatar) }})" ></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
                     </li>
                 <ul>
             @else
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <small class="fas fa-key"></small> Login</a>
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal"> <small class="fas fa-key"></small> Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sign up</a>

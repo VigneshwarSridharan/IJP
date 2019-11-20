@@ -51202,8 +51202,8 @@ if (document.getElementById('example')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laravel\voyager\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\laravel\voyager\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laravel\ijp\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\laravel\ijp\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

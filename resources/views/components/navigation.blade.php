@@ -23,7 +23,7 @@
             @if(Auth::check())
                 <ul class="navbar-nav ml-auto user-navs">
                     <li class="nav-item ml-3">
-                        <button class="btn btn-primary"><small class="fas fa-camera mr-2"></small> Upload</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#new-post"><small class="fas fa-camera mr-2"></small> Upload</button>
                     </li>
                     <li class="nav-item ml-3">
                         <i class="fas fa-bell p-2 color-light"></i>

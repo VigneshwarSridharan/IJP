@@ -60,7 +60,15 @@ body {
     }
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 .post-item {
+    .site-badge {
+        position: absolute;
+        left: 0;
+    }
     .featured-image {
         width: 250px;
         border-radius: 8px;
@@ -104,6 +112,29 @@ body {
     }
 }
 
+.post-details {
+    .post-info {
+        padding: 0;
+        margin: 0;
+        li {
+            list-style: none;
+            display: inline-block;
+            padding: 0 .5rem;
+            i {
+                margin-right: .25rem;
+            }
+        }
+    }
+    .avatar {
+        height: 40px;
+        width: 40px;
+        background-size: cover;
+        background-position: center center;
+        border-radius: 50%;
+        margin-right: .75rem;
+    }
+}
+
 .site-badge {
     position: relative;
     font-size: 12px;
@@ -128,6 +159,18 @@ body {
         background-color: #FA6400;
         &::before {
             border: solid 14px #FA6400;
+        }
+    }
+    &.blue {
+        background-color: #2c7aff;
+        &::before {
+            border: solid 14px #2c7aff;
+        }
+    }
+    &.gray {
+        background-color: #696969;
+        &::before {
+            border: solid 14px #696969;
         }
     }
 }
@@ -183,5 +226,54 @@ body {
         background-color: #3b5998;
         border-color: #3b5998;
         box-shadow: none;
+    }
+}
+
+.new-post {
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        padding: 0;
+        margin-bottom: 1rem;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        &:focus {
+            box-shadow: none;
+            outline: none;
+        }
+    }
+    .subject, .body-content {
+        padding: 0;
+        margin-bottom: 1rem;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        color: #808080;
+        resize: none;
+        &:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+    }
+    .featured-image-upload {
+        color: #d6d6d6;
+        border-radius: 8px;
+        border: dashed 1px #9BA1B6;
+        background-color: #F8F7FF;
+        padding: 5rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        .icon {
+            font-size: 80px;
+        }
+        .text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    }
+    .body-content {
+
     }
 }

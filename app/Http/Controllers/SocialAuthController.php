@@ -16,11 +16,7 @@ class SocialAuthController extends Controller
     // 
     public function callback($service) {
         $user = Socialite::with ( $service )->user ();
-        // dd($user);
-        // echo '<pre>';
         $res = User::where('email', $user->email)->first();
-        // echo isset($res);
-        // print_r($res);
         if(isset($res)) {
             Auth::login($res);
         }
@@ -42,16 +38,16 @@ class SocialAuthController extends Controller
             }
             // $newUser->settings = '{"locale":"en"}';
             $newUser->save();
+            Auth::login($newUser);
         }
 
 
         return redirect('/');
         
-        // return view ( 'welcome' )->withDetails ( $user )->withService ( $service );
     }
 
     public function redirect($service) {
-        return Socialite::driver ( 'google' )->redirect ();
+        return Socialite::driver ( $service )->redirect ();
     }
 
     public function users() {

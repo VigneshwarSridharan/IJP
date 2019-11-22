@@ -11384,6 +11384,8 @@ body {
   padding: 5rem;
   text-align: center;
   margin-bottom: 1rem;
+  background-size: cover;
+  background-position: center center;
 }
 
 .new-post .featured-image-upload .icon {

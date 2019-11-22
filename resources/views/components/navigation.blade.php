@@ -21,7 +21,7 @@
                 
             </ul>
             @if(Auth::check())
-                <ul class="navbar-nav ml-auto user-navs">
+                <ul class="navbar-nav ml-auto user-navs d-flex align-items-center">
                     <li class="nav-item ml-3">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#new-post"><small class="fas fa-camera mr-2"></small> Upload</button>
                     </li>

@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use \TCG\Voyager\Models\Post;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class SiteController extends Controller
 {
@@ -91,9 +95,34 @@ class SiteController extends Controller
                     ->join('users', 'users.id', '=', 'posts.author_id')
                     ->select('posts.*', 'users.name', 'users.avatar')
                     ->where('posts.status','=','PUBLISHED')
+                    ->latest()
                     ->get();
 
         return view('welcome')->with('posts',$Posts);
 
+    }
+
+    public function addPost(Request $request) {
+
+        $post = new Post;
+
+        $post->title = $request->title;
+        $post->slug = str_replace(' ','-',strtolower($request->title));
+        $post->excerpt = $request->excerpt;
+        $post->body = $request->body;
+        $post->author_id = $request->user()->id;
+        $post->category_id = 3;
+        $post->status = 'PUBLISHED';
+        $post->featured = 0;
+        
+        if($request->hasFile('image')) {
+            $directory = 'posts/';
+            $path = $request->file('image')->store($directory,'public');
+            $post->image = $path;
+        }
+
+        $post->save();
+
+        return redirect('/');
     }
 }

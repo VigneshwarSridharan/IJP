@@ -7,7 +7,7 @@
             @foreach ($posts as $key => $post)
                 <div class="card mb-3 post-item pointer" data-toggle="modal" data-target="#post-{{$key}}">
                     <div class="card-body d-flex">
-                        <div class="site-badge blue mb-3">Issue #{{$key+1}}</div>
+                        <div class="site-badge blue mb-3">Issue #{{$post->id+1}}</div>
                         <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
                         <div class="content">
                             <h4 class="title">{{$post->title}}</h4>
@@ -58,7 +58,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">
                     <div class="modal-body bg-light rounded">
-                        <div class="site-badge blue mb-3">Issue #{{$key+1}}</div>
+                        <div class="site-badge blue mb-3">Issue #{{$post->id+1}}</div>
                         <h4 class="title">{{$post->title}}</h4>
                         <p class="excerpt">{{$post->excerpt }}</p>
                         <img src="{{ url('storage/'.$post->image) }}" class="img-fluid rounded mb-3" />
@@ -139,29 +139,37 @@
         <div class="modal fade" id="new-post" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">
-                    <div class="modal-body rounded">
-                        <div class="site-badge gray mb-3">Submission #{{count($posts) + 1}}</div>
-                        <form class="new-post">
-                            <input type="text" class="title" placeholder="Title">
-                            
-                            <textarea class="subject" placeholder="Subject" rows="3"></textarea>
+                            <div class="modal-body rounded">
+                                <form class="new-post" action="/addPost" method="POST" enctype="multipart/form-data">
+                                         {{ csrf_field() }}
+                                        <div class="site-badge gray mb-3">Submission #{{count($posts) + 1}}</div>
+                                            <input type="text" name="title" class="title" placeholder="Title">
+                                            
+                                            <textarea class="subject" name="excerpt" placeholder="Subject" rows="3"></textarea>
 
-                            <div class="featured-image-upload">
-                                <div class="icon">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <div class="text">Drop your photo</div>
+                                            <div class="featured-image-upload">
+                                                <div class="icon">
+                                                    <i class="fas fa-camera"></i>
+                                                </div>
+                                                <div class="text">Drop your photo</div>
+                                            </div>
+                                            
+                                            <input type="file" name="image" class="featured-image" accept="image/*" />
+
+                                            <textarea class="body-content" name="body" placeholder="Wanna describe more?" rows="3"></textarea>
+                                </from>
                             </div>
-                            
-                            <textarea class="body-content" placeholder="Wanna describe more?" rows="3"></textarea>
-                        </from>
-                    </div>
-                    <div class="modal-footer text-right bg-light">
-                        <small class="mr-2">0/500</small>
-                        <button class="btn btn-primary">Submit for peer review</button>
-                    </div>
+                            <div class="modal-footer text-right bg-light">
+                                <small class="mr-2">0/500</small>
+                                <button class="btn btn-primary">Submit for peer review</button>
+                            </div>
                 </div>
             </div>
         </div>
     @endif
 @endsection
+
+
+@push('scripts')
+    <script src="{{url('js/site/add-post.js')}}"></script>
+@endpush

@@ -17,6 +17,8 @@ use \TCG\Voyager\Models\Post;
 
 Route::get('/', 'SiteController@home');
 
+Route::post('/addPost', 'SiteController@addPost')->middleware('auth');;
+
 Route::get('/logout', function() {
     Auth::logout();
 
@@ -33,11 +35,5 @@ Route::get ( '/callback/{service}', 'SocialAuthController@callback' );
 Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
 
 Route::get ( '/test', function() {
-    $page = Post::all();
-    // echo '<pre>';
-    foreach($page as $key => $value) {
-        echo $key;
-        echo ($value['body']);
-        echo '<br/>';
-    }
+    dd(Auth::user());
 } );

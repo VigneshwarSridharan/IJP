@@ -143,9 +143,9 @@
                                 <form class="new-post" action="/addPost" method="POST" enctype="multipart/form-data">
                                          {{ csrf_field() }}
                                         <div class="site-badge gray mb-3">Submission #{{count($posts) + 1}}</div>
-                                            <input type="text" name="title" class="title" placeholder="Title">
+                                            <input type="text" name="title" class="title" placeholder="Title" required>
                                             
-                                            <textarea class="subject" name="excerpt" placeholder="Subject" rows="3"></textarea>
+                                            <textarea class="subject" name="excerpt" placeholder="Subject" rows="3" required></textarea>
 
                                             <div class="featured-image-upload">
                                                 <div class="icon">
@@ -154,13 +154,13 @@
                                                 <div class="text">Drop your photo</div>
                                             </div>
                                             
-                                            <input type="file" name="image" class="featured-image" accept="image/*" />
+                                            <input type="file" name="image" class="featured-image" accept="image/*" required />
 
-                                            <textarea class="body-content" name="body" placeholder="Wanna describe more?" rows="3"></textarea>
+                                            <textarea class="body-content" name="body" placeholder="Wanna describe more?" rows="3" required></textarea>
                                 </from>
                             </div>
                             <div class="modal-footer text-right bg-light">
-                                <small class="mr-2">0/500</small>
+                                <small class="mr-2 body-content-count">0/500</small>
                                 <button class="btn btn-primary">Submit for peer review</button>
                             </div>
                 </div>
@@ -169,7 +169,26 @@
     @endif
 @endsection
 
+@push('styles')
+    <link rel="stylesheet" href="{{url('css/lib/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{url('css/lib/jquery.toast.min.css')}}" />
+@endpush
 
 @push('scripts')
+    <script src="{{url('js/lib/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{url('js/lib/jquery.toast.min.js')}}"></script>
     <script src="{{url('js/site/add-post.js')}}"></script>
+    @if(Session::has('message'))
+        <script>
+            {{-- alert('{{ Session::get('message') }}') --}}
+            $.toast({
+                heading: 'Positioning',
+                text: '{{ Session::get('message') }}',
+                position: 'top-center',
+                stack: false,
+                bgColor: '#ffffff',
+                textColor: '#000000'
+            })
+        </script>
+    @endif
 @endpush

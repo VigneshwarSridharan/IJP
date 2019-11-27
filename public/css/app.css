@@ -11386,6 +11386,28 @@ body {
   margin-bottom: 1rem;
   background-size: cover;
   background-position: center center;
+  cursor: pointer;
+}
+
+.new-post .featured-image-upload.have-file {
+  border-color: transparent;
+}
+
+.new-post .featured-image-upload.have-file .icon,
+.new-post .featured-image-upload.have-file .text {
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.new-post .featured-image-upload.have-file:hover .icon,
+.new-post .featured-image-upload.have-file:hover .text {
+  opacity: 1;
+}
+
+.new-post .featured-image-upload.is-dragover {
+  border-color: #2c7aff;
+  color: #2c7aff;
 }
 
 .new-post .featured-image-upload .icon {
@@ -11395,5 +11417,14 @@ body {
 .new-post .featured-image-upload .text {
   font-size: 24px;
   font-weight: bold;
+}
+
+.new-post input.featured-image {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
 

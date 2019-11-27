@@ -267,6 +267,23 @@ body {
         margin-bottom: 1rem;
         background-size: cover;
         background-position: center center;
+        cursor: pointer;
+        &.have-file {
+            border-color: transparent;
+            .icon,.text {
+                opacity: 0;
+                transition: all .5s ease;
+            }
+            &:hover {
+                .icon,.text {
+                    opacity: 1;
+                }
+            }
+        }
+        &.is-dragover {
+            border-color: #2c7aff;
+            color: #2c7aff;
+        }
         .icon {
             font-size: 80px;
         }
@@ -274,6 +291,14 @@ body {
             font-size: 24px;
             font-weight: bold;
         }
+    }
+    input.featured-image {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 0;
+        padding: 0;
+        margin: 0;
     }
     .body-content {
 

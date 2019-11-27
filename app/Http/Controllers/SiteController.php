@@ -112,7 +112,7 @@ class SiteController extends Controller
         $post->body = $request->body;
         $post->author_id = $request->user()->id;
         $post->category_id = 3;
-        $post->status = 'PUBLISHED';
+        $post->status = 'PENDING';
         $post->featured = 0;
         
         if($request->hasFile('image')) {
@@ -123,6 +123,6 @@ class SiteController extends Controller
 
         $post->save();
 
-        return redirect('/');
+        return redirect('/')->with('message','Sent for peer review');
     }
 }

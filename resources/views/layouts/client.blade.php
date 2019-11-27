@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{url('/css/fonts.css')}}">
     <link rel="stylesheet" href="{{url('/css/app.css')}}">
     <link rel="stylesheet" href="{{url('/css/all.min.css')}}">
-    @stack('style')
+    @stack('styles')
 
     <title>{{ setting('site.title')}}</title>
   </head>

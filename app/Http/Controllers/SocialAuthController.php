@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Socialite;
 
+use Storage;
+use App\User;
+use Socialite;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Storage;
+use Illuminate\Support\Facades\Mail;
 
 class SocialAuthController extends Controller
 {
@@ -38,6 +39,15 @@ class SocialAuthController extends Controller
             }
             // $newUser->settings = '{"locale":"en"}';
             $newUser->save();
+
+            $mailData= ['name' => $newUser->name];
+            Mail::send('mail.basic', $mailData, function($message) use ($newUser) {
+                $message->to($newUser->email, $newUser->name)
+                        ->subject(setting('site.title'));
+                $message->from(setting('site.email'),setting('site.title'));
+            });
+
+
             Auth::login($newUser);
         }
 

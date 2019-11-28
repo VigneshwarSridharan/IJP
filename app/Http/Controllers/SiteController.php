@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use \TCG\Voyager\Models\Post;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class SiteController extends Controller
@@ -105,12 +106,13 @@ class SiteController extends Controller
     public function addPost(Request $request) {
 
         $post = new Post;
+        $user = Auth::user();
 
         $post->title = $request->title;
         $post->slug = str_replace(' ','-',strtolower($request->title));
         $post->excerpt = $request->excerpt;
         $post->body = $request->body;
-        $post->author_id = $request->user()->id;
+        $post->author_id = $user->id;
         $post->category_id = 3;
         $post->status = 'PENDING';
         $post->featured = 0;
@@ -121,7 +123,18 @@ class SiteController extends Controller
             $post->image = $path;
         }
 
+        
         $post->save();
+
+        $mailData= [
+            'name' => $user->name,
+            'title' => $post->title
+        ];
+        Mail::send('mail.postSubmit', $mailData, function($message) use ($user) {
+            $message->to($user->email, $user->name)
+                    ->subject('Post Submission');
+            $message->from(setting('site.email'),setting('site.title'));
+        });
 
         return redirect('/')->with('message','Sent for peer review');
     }

@@ -56,3 +56,21 @@ Route::get ( '/test', function() {
 
     return view('mail.basic')->with($data);
 } );
+
+Route::get('/clear', function() {
+
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+ 
+    return "Cleared!";
+ 
+ });
+
+ Route::get('/storage', function() {
+     
+     Artison::call('storage:link');
+
+     return 'Storage linked done!';
+ });

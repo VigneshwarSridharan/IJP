@@ -83,44 +83,95 @@
 
     @if(!Auth::check())
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog " role="document">
                 <div class="modal-content border-0">
                     <div class="modal-body bg-light rounded">
                         <div class="row align-items-center">
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body text-justify">
-                                        <div class="site-badge orange mb-3">Challenge</div>
-                                        <h4>Let's Go Camping</h4>
-                                        <p>Need to disconnect? Camping is the perfect fall outdoor activity to get you out of the house as you escape into the woods.</p>
-                                        <img src="{{url('storage/common/bg-3.jpg')}}" class="img-fluid rounded mb-3" />
-                                        <p>Need to disconnect? Camping is the perfect fall outdoor activity to get you out of the house as you escape into the woods. Feel at one with nature as you visit scenic campsites off-the-grid before you return to the hustle and bustle of city life.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="login-wrapper">
                                     <div class="text-center">
                                         <img class="mb-5" src="{{ url('storage/'.setting('site.logo') )}}" alt="{{ setting('site.title')}}"/>
                                         <h4>Indian journal of photography</h4>
-                                        <div class="sub-title mb-3">By Indians, for Indians</h6>
+                                        <div class="sub-title mb-3">By Indians, for Indians</div>
                                     </div>
-                                    <form class="login-form" autocomplete="nope" action="/action_page.php" method="POST">
+                                    <form class="login-form" autocomplete="nope" action="/login" method="POST">
+                                        {{ csrf_field() }}
                                         <div class="border mb-3 bg-white">
-                                            <div class="input-group border-bottom">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-envelope"></i></span>
+                                            <div class="form-group m-0">
+                                                <div class="input-group border-bottom">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-envelope"></i></span>
+                                                    </div>
+                                                    <input type="email" name="username" class="form-control border-0" placeholder="Email" autocomplete="nope" value="" required>
                                                 </div>
-                                                <input type="text" name="username" class="form-control border-0" placeholder="Email" autocomplete="nope" value="">
                                             </div>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-key"></i></span>
+                                            <div class="form-group m-0">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-key"></i></span>
+                                                    </div>
+                                                    <input type="password" name="password" class="form-control border-0" placeholder="Password" autocomplete="nope" value="" required>
                                                 </div>
-                                                <input type="password" name="password" class="form-control border-0" placeholder="Password" autocomplete="nope" value="">
                                             </div>
                                         </div>
-                                        <button class="btn btn-primary btn-block mb-3">Login</button>
+                                        <div class="mb-2 message"></div>
+                                        <button type="submit" class="btn btn-primary btn-block mb-3">Login</button>
+                                        <div class="other-options">
+                                            <div class="border-bottom"></div>
+                                            <div class="text">OR</div>
+                                        </div>
+                                        <a href="/redirect/google" class="btn btn-primary btn-block mb-3 google"><i class="fab fa-google mr-2"></i> Continue with Google</a>
+                                        <a href="/redirect/facebook" class="btn btn-primary btn-block mb-3 facebook"><i class="fab fa-facebook-square mr-2"></i> Continue with Facebook</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content border-0">
+                    <div class="modal-body bg-light rounded">
+                        <div class="row align-items-center">
+                            <div class="col-sm-12">
+                                <div class="register-wrapper">
+                                    <div class="text-center">
+                                        <img class="mb-5" src="{{ url('storage/'.setting('site.logo') )}}" alt="{{ setting('site.title')}}"/>
+                                        <h4>Indian journal of photography</h4>
+                                        <div class="sub-title mb-3">By Indians, for Indians</div>
+                                    </div>
+                                    <form class="register-form" autocomplete="nope" action="/register" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="border mb-3 bg-white">
+                                            <div class="form-group m-0">
+                                                <div class="input-group border-bottom">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-user"></i></span>
+                                                    </div>
+                                                    <input type="text" name="name" class="form-control border-0" placeholder="Full Name" autocomplete="nope" value="" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-0">
+                                                <div class="input-group border-bottom">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-envelope"></i></span>
+                                                    </div>
+                                                    <input type="email" name="username" class="form-control border-0" placeholder="Email" autocomplete="nope" value="" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-0">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-key"></i></span>
+                                                    </div>
+                                                    <input type="password" name="password" class="form-control border-0" placeholder="Password" autocomplete="nope" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="message"></div>
+                                        <button type="submit" class="btn btn-primary btn-block mb-3">Register</button>
                                         <div class="other-options">
                                             <div class="border-bottom"></div>
                                             <div class="text">OR</div>
@@ -177,17 +228,32 @@
 @push('scripts')
     <script src="{{url('js/lib/perfect-scrollbar.min.js')}}"></script>
     <script src="{{url('js/lib/jquery.toast.min.js')}}"></script>
+    <script src="{{url('js/lib/jquery.validate.js')}}"></script>
+    <script src="{{url('js/lib/additional-methods.js')}}"></script>
     <script src="{{url('js/site/add-post.js')}}"></script>
-    @if(Session::has('message'))
+    @if(!Auth::check())
+        <script src="{{url('js/site/welcome.js')}}"></script>
+    @endif
+    @if(Session::has('toast'))
+        @php $toast = Session::get('toast'); @endphp
         <script>
-            {{-- alert('{{ Session::get('message') }}') --}}
+            let bg = {
+                error:'#dc3545',
+                info:'#ffffff',
+                success: '#28a745'
+            };
+            let text = {
+                error:'#fffff',
+                info:'#000000',
+                success: '#fffff'
+            };
             $.toast({
-                heading: 'Positioning',
-                text: '{{ Session::get('message') }}',
+                heading: '{{ $toast['message'] }}',
                 position: 'top-center',
                 stack: false,
-                bgColor: '#ffffff',
-                textColor: '#000000'
+                bgColor: bg['{{ $toast['type'] }}'] || '',
+                textColor: text['{{ $toast['type'] }}'] || '',
+                hideAfter: false
             })
         </script>
     @endif

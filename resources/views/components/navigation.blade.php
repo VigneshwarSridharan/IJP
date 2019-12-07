@@ -49,7 +49,7 @@
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal"> <small class="fas fa-key"></small> Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sign up</a>
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#registerModal">Sign up</a>
                     </li>
                 </ul>
             @endif

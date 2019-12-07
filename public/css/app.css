@@ -11287,19 +11287,22 @@ body {
   border: solid 14px #696969;
 }
 
-.login-wrapper .sub-title {
+.login-wrapper .sub-title,
+.register-wrapper .sub-title {
   font-weight: 500;
   font-size: 20px;
   color: rgba(0, 0, 0, 0.85);
   font-style: italic;
 }
 
-.login-wrapper .other-options {
+.login-wrapper .other-options,
+.register-wrapper .other-options {
   padding-top: 1.5rem;
   text-align: center;
 }
 
-.login-wrapper .other-options .text {
+.login-wrapper .other-options .text,
+.register-wrapper .other-options .text {
   display: inline-block;
   width: 50px;
   height: 50px;
@@ -11312,11 +11315,13 @@ body {
   top: -25px;
 }
 
-.login-form .form-control {
+.login-form .form-control,
+.register-form .form-control {
   border-radius: 0;
 }
 
-.login-form .form-control:focus {
+.login-form .form-control:focus,
+.register-form .form-control:focus {
   box-shadow: none;
 }
 
@@ -11426,5 +11431,54 @@ body {
   border: 0;
   padding: 0;
   margin: 0;
+}
+
+label.error {
+  position: absolute;
+  right: 0;
+  padding: 0.5rem;
+  line-height: 1;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: solid 1px #f5c6cb;
+  border-radius: 10px;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  z-index: 10;
+  -webkit-animation: errFadeInUp 1s;
+          animation: errFadeInUp 1s;
+}
+
+.from-group {
+  position: relative;
+}
+
+label.error:before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f8d7da;
+  border: solid 1px #f5c6cb;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  bottom: -5px;
+  right: 10px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+@-webkit-keyframes errFadeInUp {
+  from {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes errFadeInUp {
+  from {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
 }
 

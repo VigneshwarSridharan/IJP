@@ -12,6 +12,8 @@ const mix = require('laravel-mix');
  */
 
 mix.react('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+.sass('resources/sass/app.scss', 'public/css');
 
-mix.copyDirectory('resources/js/site', 'public/js/site');
+mix.js('resources/js/site/welcome.js', 'public/js/site');
+mix.js('resources/js/site/add-post.js', 'public/js/site');
+// mix.copyDirectory('resources/js/site', 'public/js/site');

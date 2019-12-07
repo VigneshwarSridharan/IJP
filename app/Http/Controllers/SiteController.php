@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use \TCG\Voyager\Models\Post;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -90,7 +93,100 @@ class SiteController extends Controller
         //
     }
 
-    public function home() {
+    public function register(Request $request) {
+        $newUser = new User;
+
+        $newUser->role_id = 2;
+        $newUser->name = $request->name;
+        $newUser->email = $request->username;
+        $newUser->password = Hash::make($request->password);
+
+        if($request->avatar) {
+            $url = $user->avatar;
+            $contents = file_get_contents($url);
+            $directory = 'users/'.Carbon::now()->format('FY').'/';
+            $name = Str::random(20).'.jpg';
+            Storage::disk('public')->put($directory.$name, $contents);
+            $newUser->avatar = $directory.$name;
+        }
+        // $newUser->settings = '{"locale":"en"}';
+        $newUser->save();
+
+        $mailData= ['name' => $newUser->name];
+        Mail::send('mail.basic', $mailData, function($message) use ($newUser) {
+            $message->to($newUser->email, $newUser->name)
+                    ->subject(setting('site.title'));
+            $message->from(setting('site.email'),setting('site.title'));
+        });
+
+
+        Auth::login($newUser);
+
+        $toast = [
+            "type" => "success",
+            "message" => "Hey ".$newUser->name." welcome to ".setting('site.title')
+        ];
+
+        return redirect('/')->with('toast',$toast);
+    }
+
+    public function checkRegister(Request $request) {
+        $res = User::where('email', $request->username)->first();
+        $response = [
+            "status" => "error",
+            "data" => "User already exists"
+        ];
+        if(!isset($res)) {
+            $response['status'] = 'success';
+            $response['data'] = 'Username available';
+        }
+        return response()->json($response);
+    }
+
+    public function login(Request $request) {
+        $res = User::where('email', $request->username)->first();
+
+        $toast = [
+            "type" => "error"
+        ];
+
+        if(isset($res)) {
+            if(Hash::check($request->password, $res->password)) {
+                if(isset($res)) {
+                    Auth::login($res);
+                    return redirect('/');
+                }
+            }
+            else {
+                $toast['message'] = 'Password doesn\'t match.';
+                return redirect('/')->with('toast',$toast);
+            }
+        }
+        $toast['message'] = 'Username doesn\'t match.';
+        return redirect('/')->with('toast',$toast);
+
+    }
+
+    public function checkLogin(Request $request) {
+        $res = User::where('email', $request->username)->first();
+        
+        $response = [
+            "status" => "error",
+            "data" => "Username doesn't match."
+        ];
+        if(isset($res)) {
+            if(Hash::check($request->password, $res->password)) {                
+                $response['status']="success";
+                $response['data']="Valid user.";
+            }
+            else {
+                $response['data']="Password doesn't match.";
+            }
+        }
+        return response()->json($response);
+    }
+
+    public function home(Request $request) {
         // $Posts = Post::all();
         $Posts  = DB::table('posts')
                     ->join('users', 'users.id', '=', 'posts.author_id')
@@ -98,7 +194,11 @@ class SiteController extends Controller
                     ->where('posts.status','=','PUBLISHED')
                     ->latest()
                     ->get();
-
+        $toast = [
+            "type"=>"info",
+            "message" => "someting went wrong. please try again later."
+        ];
+        // $request->session()->flash('toast', $toast);
         return view('welcome')->with('posts',$Posts);
 
     }

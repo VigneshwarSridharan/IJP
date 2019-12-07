@@ -22,6 +22,14 @@ use App\Mail\SendMailable;
 
 Route::get('/', 'SiteController@home');
 
+Route::post('/login','SiteController@login');
+
+Route::post('/checkLogin','SiteController@checkLogin');
+
+Route::post('/register','SiteController@register');
+
+Route::post('/checkRegister','SiteController@checkRegister');
+
 Route::post('/addPost', 'SiteController@addPost')->middleware('auth');;
 
 Route::get('/logout', function() {

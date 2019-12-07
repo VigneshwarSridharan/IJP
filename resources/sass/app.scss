@@ -175,7 +175,7 @@ body {
     }
 }
 
-.login-wrapper {
+.login-wrapper, .register-wrapper {
     .sub-title {
         font-weight: 500;
         font-size: 20px;
@@ -200,7 +200,7 @@ body {
     }
 }
 
-.login-form {
+.login-form, .register-form {
     .form-control {
         border-radius: 0;
         &:focus {
@@ -302,5 +302,44 @@ body {
     }
     .body-content {
 
+    }
+}
+
+label.error {
+    position: absolute;
+    right: 0;
+    padding: 0.5rem;
+    line-height: 1;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: solid 1px #f5c6cb;
+    border-radius: 10px;
+    transform: translateY(-100%);
+    z-index: 10;
+    animation: errFadeInUp 1s;
+}
+
+.from-group {
+    position: relative;
+}
+
+label.error:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f8d7da;
+    border: solid 1px #f5c6cb;
+    transform: rotate(45deg);
+    bottom: -5px;
+    right: 10px;
+    border-top-color: transparent;
+    border-left-color: transparent;
+}
+
+
+@keyframes errFadeInUp {
+    from {
+        transform: translateY(0);
     }
 }

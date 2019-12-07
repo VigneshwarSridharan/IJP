@@ -93,6 +93,8 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+var _this = this;
+
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
@@ -156,7 +158,7 @@ $upload.on('drag dragstart dragend dragover dragenter dragleave drop', function 
   $upload.removeClass('is-dragover');
 }).on('drop', function (e) {
   droppedFiles = e.originalEvent.dataTransfer.files;
-  console.log(droppedFiles);
+  console.log(_this);
   var $fileInput = $('input.featured-image');
 
   var _$fileInput = _slicedToArray($fileInput, 1),

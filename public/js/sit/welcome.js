@@ -81,111 +81,58 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/site/add-post.js":
-/*!***************************************!*\
-  !*** ./resources/js/site/add-post.js ***!
-  \***************************************/
+/***/ "./resources/js/site/welcome.js":
+/*!**************************************!*\
+  !*** ./resources/js/site/welcome.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-
-function _iterableToArrayLimit(arr, i) {
-  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
-    return;
+$('.login-form').validate({
+  submitHandler: function submitHandler(from) {
+    var data = $(from).serializeArray();
+    $.ajax({
+      url: '/login',
+      method: 'POST',
+      dataType: 'json',
+      data: data,
+      success: function success(res) {
+        console.log(res);
+        var _resl = resl,
+            message = _resl.message;
+        $(from).find('.message').html("<div ".concat(message, " />"));
+      }
+    });
   }
-
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-$('input.featured-image').on('change', function (event) {
-  var src = URL.createObjectURL(event.target.files[0]);
-  $(this).parents('.modal').find('.featured-image-upload').css({
-    backgroundImage: "url(".concat(src, ")")
-  });
-  $upload.addClass('have-file');
-});
-$('.featured-image-upload').click(function () {
-  $(this).parents('.modal').find('.featured-image').click();
-});
-var $upload = $('.featured-image-upload');
-var droppedFiles = false;
-$upload.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
-  e.preventDefault();
-  e.stopPropagation();
-}).on('dragover dragenter', function () {
-  $upload.addClass('is-dragover');
-}).on('dragleave dragend drop', function () {
-  $upload.removeClass('is-dragover');
-}).on('drop', function (e) {
-  droppedFiles = e.originalEvent.dataTransfer.files;
-  console.log(droppedFiles);
-  var $fileInput = $('input.featured-image');
-
-  var _$fileInput = _slicedToArray($fileInput, 1),
-      fileContext = _$fileInput[0];
-
-  console.log(fileContext);
-  fileContext.files = droppedFiles;
-  $fileInput.trigger('change');
-
-  if (droppedFiles.length) {
-    $upload.addClass('have-file');
-  } // $('.featured-image').val(droppedFiles)
-
-});
-$('#new-post .body-content').on('input', function () {
-  this.value = this.value.substr(0, 500);
-  $('#new-post .body-content-count').text(this.value.length + '/500');
 });
 
 /***/ }),
 
-/***/ 1:
-/*!*********************************************!*\
-  !*** multi ./resources/js/site/add-post.js ***!
-  \*********************************************/
+/***/ "./resources/sass/app.scss":
+/*!*********************************!*\
+  !*** ./resources/sass/app.scss ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 0:
+/*!**********************************************************************!*\
+  !*** multi ./resources/js/site/welcome.js ./resources/sass/app.scss ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\laravel\ijp\resources\js\site\add-post.js */"./resources/js/site/add-post.js");
+__webpack_require__(/*! D:\laravel\ijp\resources\js\site\welcome.js */"./resources/js/site/welcome.js");
+module.exports = __webpack_require__(/*! D:\laravel\ijp\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

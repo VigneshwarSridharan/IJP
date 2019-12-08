@@ -16,4 +16,5 @@ mix.react('resources/js/app.js', 'public/js')
 
 mix.js('resources/js/site/welcome.js', 'public/js/site');
 mix.js('resources/js/site/add-post.js', 'public/js/site');
+mix.js('resources/js/site/profile.js', 'public/js/site');
 // mix.copyDirectory('resources/js/site', 'public/js/site');

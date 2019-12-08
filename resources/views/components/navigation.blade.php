@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand mr-5 p-0" href="#">
+        <a class="navbar-brand mr-5 p-0" href="/">
             <img src="{{ url('storage/'.setting('site.logo') )}}" alt="{{ setting('site.title')}}" height="42"/>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,7 +16,16 @@
                     <a class="nav-link" href="#"><small class="fas fa-flag-checkered mr-2"></small> Participate</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><small class="fas fa-book-reader mr-2"></small> Learn</a>
+                    <a class="nav-link" href="#"><small class="fas fa-book-reader mr-2"></small> Learn put Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><small class="fas fa-book mr-2"></small> Journals and Issues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><small class="fas fa-camera-retro mr-2"></small> Submit your photos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><small class="fas fa-users mr-2"></small> About us</a>
                 </li>
                 
             </ul>
@@ -36,7 +45,7 @@
                     <li class="nav-item dropdown ml-3">
                         <a class="nav-link dropdown-toggle avatar" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="background-image: url({{ url('storage/'.Auth::user()->avatar) }})" ></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="/profile">Profile</a>
                             <a class="dropdown-item" href="#">Another action</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Logout</a>

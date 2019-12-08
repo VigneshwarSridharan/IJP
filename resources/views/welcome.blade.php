@@ -222,39 +222,15 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{url('css/lib/perfect-scrollbar.css')}}" />
-    <link rel="stylesheet" href="{{url('css/lib/jquery.toast.min.css')}}" />
 @endpush
 
 @push('scripts')
     <script src="{{url('js/lib/perfect-scrollbar.min.js')}}"></script>
-    <script src="{{url('js/lib/jquery.toast.min.js')}}"></script>
     <script src="{{url('js/lib/jquery.validate.js')}}"></script>
     <script src="{{url('js/lib/additional-methods.js')}}"></script>
     <script src="{{url('js/site/add-post.js')}}"></script>
     @if(!Auth::check())
         <script src="{{url('js/site/welcome.js')}}"></script>
     @endif
-    @if(Session::has('toast'))
-        @php $toast = Session::get('toast'); @endphp
-        <script>
-            let bg = {
-                error:'#dc3545',
-                info:'#ffffff',
-                success: '#28a745'
-            };
-            let text = {
-                error:'#fffff',
-                info:'#000000',
-                success: '#fffff'
-            };
-            $.toast({
-                heading: '{{ $toast['message'] }}',
-                position: 'top-center',
-                stack: false,
-                bgColor: bg['{{ $toast['type'] }}'] || '',
-                textColor: text['{{ $toast['type'] }}'] || '',
-                hideAfter: false
-            })
-        </script>
-    @endif
+    
 @endpush

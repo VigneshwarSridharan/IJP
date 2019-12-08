@@ -20,7 +20,16 @@ use App\Mail\SendMailable;
 |
 */
 
-Route::get('/', 'SiteController@home');
+Route::get('/', 'SiteController@home')->name('login');
+
+Route::get('/login', function() {
+    return redirect('/#/login');
+})->name('login');
+
+Route::get('/register', function() {
+    return redirect('/');
+});
+
 
 Route::post('/login','SiteController@login');
 
@@ -30,11 +39,14 @@ Route::post('/register','SiteController@register');
 
 Route::post('/checkRegister','SiteController@checkRegister');
 
-Route::post('/addPost', 'SiteController@addPost')->middleware('auth');;
+Route::post('/addPost', 'SiteController@addPost')->middleware('auth');
+
+Route::get('/profile', 'ProfileController@user')->middleware('auth');
+
+Route::post('/profile', 'ProfileController@update')->middleware('auth');
 
 Route::get('/logout', function() {
     Auth::logout();
-
     return redirect('/');
 });
 

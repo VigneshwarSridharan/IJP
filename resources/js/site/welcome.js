@@ -1,3 +1,13 @@
+let {hash} = location;
+hash = hash.replace('#/','');
+if(hash == 'login') {
+    $('#loginModal').modal('show');
+}
+if(hash == 'register') {
+    $('#registerModal').modal('show');
+}
+console.log(hash)
+
 let loginSubmitHandler = (form) => {
     let $form = $(form);
     $form.find('[type="submit"]').html(`<i class="fas fa-spinner fa-pulse"></i>`).attr('disabled', 'disabled');

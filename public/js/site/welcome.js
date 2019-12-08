@@ -93,6 +93,20 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+var _location = location,
+    hash = _location.hash;
+hash = hash.replace('#/', '');
+
+if (hash == 'login') {
+  $('#loginModal').modal('show');
+}
+
+if (hash == 'register') {
+  $('#registerModal').modal('show');
+}
+
+console.log(hash);
+
 var loginSubmitHandler = function loginSubmitHandler(form) {
   var $form = $(form);
   $form.find('[type="submit"]').html("<i class=\"fas fa-spinner fa-pulse\"></i>").attr('disabled', 'disabled');

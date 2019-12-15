@@ -218,6 +218,37 @@ body {
 }
 
 .login-wrapper, .register-wrapper {
+    label.error {
+        position: absolute;
+        right: 0;
+        padding: 0.5rem;
+        line-height: 1;
+        color: #721c24;
+        background-color: #f8d7da;
+        border: solid 1px #f5c6cb;
+        border-radius: 10px;
+        transform: translateY(-100%);
+        z-index: 10;
+        animation: errFadeInUp 1s;
+    }
+    
+    .from-group {
+        position: relative;
+    }
+    
+    label.error:before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #f8d7da;
+        border: solid 1px #f5c6cb;
+        transform: rotate(45deg);
+        bottom: -5px;
+        right: 10px;
+        border-top-color: transparent;
+        border-left-color: transparent;
+    }
     .sub-title {
         font-weight: 500;
         font-size: 20px;
@@ -349,37 +380,41 @@ body {
     }
 }
 
-label.error {
-    position: absolute;
-    right: 0;
-    padding: 0.5rem;
-    line-height: 1;
-    color: #721c24;
-    background-color: #f8d7da;
-    border: solid 1px #f5c6cb;
-    border-radius: 10px;
-    transform: translateY(-100%);
-    z-index: 10;
-    animation: errFadeInUp 1s;
+.categories{
+    .category {
+        border-radius: 8px;
+        margin-bottom: .5rem;
+        height: 150px;
+        background-size: cover;
+        background-position: center center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #fff !important;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        &:hover,&:active,&:visited {
+            color: #fff !important;
+            text-decoration: none;
+        }
+        h5 {
+            color: #fff ;
+        }
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: hsla(0, 0%, 0%, 0.4);
+            z-index: -1;
+        }
+    }
 }
 
-.from-group {
-    position: relative;
-}
-
-label.error:before {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #f8d7da;
-    border: solid 1px #f5c6cb;
-    transform: rotate(45deg);
-    bottom: -5px;
-    right: 10px;
-    border-top-color: transparent;
-    border-left-color: transparent;
-}
 
 
 @keyframes errFadeInUp {

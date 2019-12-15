@@ -44,12 +44,33 @@ $upload.on('drag dragstart dragend dragover dragenter dragleave drop', function 
 // })
 
 $('#new-post .submit').on('click',function() {
-    console.log('sdfsd')
+    $('#new-post form').find('[name="is_draft"]').val(0)
+    $('#new-post form').submit()
+})
+$('#new-post .draft').on('click',function() {
+    $('#new-post form').find('[name="is_draft"]').val(1)
     $('#new-post form').submit()
 })
 
+// jQuery.validator.setDefaults({
+    
+// });
+
 $('#new-post form').validate({
     submitHandler: form => {
-        console.log(form);
-    }
+        let $form = $(form);
+        form.submit();
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    },
+    ignore:[]
 });

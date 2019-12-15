@@ -11333,6 +11333,44 @@ body {
   border: solid 14px #696969;
 }
 
+.login-wrapper label.error,
+.register-wrapper label.error {
+  position: absolute;
+  right: 0;
+  padding: 0.5rem;
+  line-height: 1;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: solid 1px #f5c6cb;
+  border-radius: 10px;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  z-index: 10;
+  -webkit-animation: errFadeInUp 1s;
+          animation: errFadeInUp 1s;
+}
+
+.login-wrapper .from-group,
+.register-wrapper .from-group {
+  position: relative;
+}
+
+.login-wrapper label.error:before,
+.register-wrapper label.error:before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f8d7da;
+  border: solid 1px #f5c6cb;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  bottom: -5px;
+  right: 10px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
 .login-wrapper .sub-title,
 .register-wrapper .sub-title {
   font-weight: 500;
@@ -11481,39 +11519,45 @@ body {
   margin: 0;
 }
 
-label.error {
-  position: absolute;
-  right: 0;
-  padding: 0.5rem;
-  line-height: 1;
-  color: #721c24;
-  background-color: #f8d7da;
-  border: solid 1px #f5c6cb;
-  border-radius: 10px;
-  -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
-  z-index: 10;
-  -webkit-animation: errFadeInUp 1s;
-          animation: errFadeInUp 1s;
-}
-
-.from-group {
+.categories .category {
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  height: 150px;
+  background-size: cover;
+  background-position: center center;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  text-decoration: none;
+  color: #fff !important;
   position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
-label.error:before {
+.categories .category:hover,
+.categories .category:active,
+.categories .category:visited {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.categories .category h5 {
+  color: #fff;
+}
+
+.categories .category:before {
   content: "";
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #f8d7da;
-  border: solid 1px #f5c6cb;
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-  bottom: -5px;
-  right: 10px;
-  border-top-color: transparent;
-  border-left-color: transparent;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: -1;
 }
 
 @-webkit-keyframes errFadeInUp {

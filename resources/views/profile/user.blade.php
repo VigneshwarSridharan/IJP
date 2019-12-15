@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="image" aria-describedby="inputGroupFileAddon01">
+                                        <input type="file" class="custom-file-input" name="image" aria-describedby="inputGroupFileAddon01" accept="image/*" >
                                         <label class="custom-file-label" for="inputGroupFile01">Choose profile</label>
                                     </div>
                                 </div>

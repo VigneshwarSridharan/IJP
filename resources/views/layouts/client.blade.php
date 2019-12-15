@@ -20,6 +20,7 @@
   <body>
     @include('components.navigation')
     @yield('content')
+    <section class="site-footer py-2 bg-white text-center shadow-lg text-dark">Designed by Subhashini || All rights reserved by <a href="/">{{ setting('site.title')}}</a>.</section>
     @if(!Auth::check())
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
@@ -162,6 +163,7 @@
                     <div class="modal-body rounded">
                         <form class="new-post" action="/addPost" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <input type="hidden" value="0" name="is_draft" />
                             <h5 class="text-primary">Personal Information</h5>
                             <div class="form-group">
                                 <label>Name</label>
@@ -179,7 +181,7 @@
                                     @foreach ($categories as $category)
                                         <div class="col-sm-4">
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="category-{{$category['id']}}" name="category" class="custom-control-input" value="{{$category['id']}}">
+                                                <input type="radio" id="category-{{$category['id']}}" name="category" class="custom-control-input" value="{{$category['id']}}" required>
                                                 <label class="custom-control-label text-body" for="category-{{$category['id']}}">{{$category['name']}}</label>
                                             </div>
                                         </div>
@@ -192,19 +194,19 @@
                             </div>
                             <div class="form-group">
                                 <label>Article Keywords</label>
-                                <select name="keywords" class="form-control select2" data-tags="true" multiple="multiple" data-token-separators="[',']" name="keywords">
+                                <select name="keywords[]" class="form-control select2" data-tags="true" multiple="multiple" data-token-separators="[',']" name="keywords" required>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Article Description</label>
-                                <textarea id="mytextarea" name="description"></textarea>
+                                <textarea class="form-control" id="mytextarea" name="description" required></textarea>
                                 <small class="form-text text-muted">Maximum 300 words only allowed!</small>
                             </div>
                             <div class="form-group">
                                 <label>Upload Your Photo</label>
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="image" aria-describedby="inputGroupFileAddon01">
+                                        <input type="file" class="custom-file-input" name="image" aria-describedby="inputGroupFileAddon01" accept="image/*" required>
                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                     </div>
                                 </div>
@@ -216,20 +218,19 @@
                             <h5 class="text-primary">Declaration</h5>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1" name="confirm_author" required>
                                     <label class="custom-control-label" for="customCheck1">I confirm that I am the author of photo.</label>
                                 </div>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck2" name="not_published_ijp" required>
                                     <label class="custom-control-label" for="customCheck2">I confirm that this photo is not published by other journal as well as by IJP.</label>
                                 </div>
                             </div>
-                            <button>submit</button>
                         </form>
                     </div>
                     <div class="modal-footer text-right bg-light">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Save as Draft</button>
+                        <button class="btn btn-primary draft">Save as Draft</button>
                         <button class="btn btn-primary submit">Submit</button>
                     </div>
                 </div>

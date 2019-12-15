@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use \TCG\Voyager\Models\Post;
+use \TCG\Voyager\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -203,6 +204,25 @@ class SiteController extends Controller
 
     }
 
+    public function category($category) {
+        $category = Category::where('slug','=',$category)->get()->first();
+        $Posts  = DB::table('posts')
+                    ->join('users', 'users.id', '=', 'posts.author_id')
+                    ->select('posts.*', 'users.name', 'users.avatar')
+                    ->where([
+                        ['posts.status','=','PUBLISHED'],
+                        ['posts.category_id','=',$category->id],
+                    ])
+                    ->latest()
+                    ->get();
+        $toast = [
+            "type"=>"info",
+            "message" => "someting went wrong. please try again later."
+        ];
+        // $request->session()->flash('toast', $toast);
+        return view('welcome')->with(['posts'=>$Posts]);
+    }
+
     public function posts() {
         $result  = DB::table('posts')
                     ->join('users', 'users.id', '=', 'posts.author_id')
@@ -224,19 +244,27 @@ class SiteController extends Controller
     }
 
     public function addPost(Request $request) {
-        dd($request->all());
+        // dd($request->all());
 
         $post = new Post;
         $user = Auth::user();
 
         $post->title = $request->title;
         $post->slug = str_replace(' ','-',strtolower($request->title));
-        $post->excerpt = $request->excerpt;
-        $post->body = $request->body;
+        $post->excerpt = preg_replace('/<[^>]*>/','',$request->description);
+        $post->body = $request->description;
         $post->author_id = $user->id;
-        $post->category_id = 3;
-        $post->status = 'PENDING';
+        $post->category_id = $request->category;
+        if($request->is_draft == '1') {
+            $post->status = 'DRAFT';
+        }
+        else {
+            $post->status = 'PENDING';
+        }
         $post->featured = 0;
+        $post->seo_title = $request->title;
+        $post->meta_description = preg_replace('/<[^>]*>/','',$request->description);
+        $post->meta_keywords = join(', ',$request->keywords);
         
         if($request->hasFile('image')) {
             $directory = 'posts/';
@@ -244,7 +272,6 @@ class SiteController extends Controller
             $post->image = $path;
         }
 
-        
         $post->save();
 
         $mailData= [

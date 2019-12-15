@@ -4,7 +4,13 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-sm-8">
-            <div id="posts"></div>
+            @if(count($posts) == 0)
+                <div class="card mb-3 post-item">
+                    <div class="card-body text-center">
+                        <h3>No results found</h3>
+                    </div>
+                </div>
+            @endif
             @foreach ($posts as $key => $post)
                 <div class="card mb-3 post-item pointer" data-toggle="modal" data-target="#post-{{$key}}">
                     <div class="card-body d-flex">
@@ -41,7 +47,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body text-justify">
                         <div class="site-badge orange mb-3">Challenge</div>
                         <h4>Let's Go Camping</h4>
@@ -49,6 +55,13 @@
                         <img src="{{url('storage/common/bg-3.jpg')}}" class="img-fluid rounded mb-3" />
                         <p>Need to disconnect? Camping is the perfect fall outdoor activity to get you out of the house as you escape into the woods. Feel at one with nature as you visit scenic campsites off-the-grid before you return to the hustle and bustle of city life.</p>
                     </div>
+                </div>
+                <div class="categories">
+                    @foreach ($categories as $category )
+                        <a href="/category/{{$category['slug']}}" class="category" style="background-image: url({{url('storage/'.str_replace('\\','/',$category['image']))}});">
+                            <h5>{{$category['name']}}</h5>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -93,7 +106,6 @@
     <script src="{{url('js/lib/jquery.validate.js')}}"></script>
     <script src="{{url('js/lib/additional-methods.js')}}"></script>
     <script src="{{url('js/site/add-post.js')}}"></script>
-    <script src="{{url('js/components/Posts.js')}}"></script>
     @if(!Auth::check())
         <script src="{{url('js/site/welcome.js')}}"></script>
     @endif

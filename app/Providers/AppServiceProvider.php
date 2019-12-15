@@ -33,7 +33,8 @@ class AppServiceProvider extends ServiceProvider
                 "order" => $category['order'],
                 "name" => $category['name'],
                 "slug" => $category['slug'],
-                "id" => $category['id']
+                "id" => $category['id'],
+                "image" => $category['image']
             ];
         },$categories);
         array_multisort(array_column($categories, 'order'), SORT_ASC, $categories);

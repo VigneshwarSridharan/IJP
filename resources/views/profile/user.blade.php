@@ -54,9 +54,6 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    {{-- <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                                    </div> --}}
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="image" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Choose profile</label>
@@ -99,37 +96,6 @@
             </div>
         </div>
     @endforeach
-
-    <div class="modal fade" id="new-post" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
-            <div class="modal-content border-0">
-                        <div class="modal-body rounded">
-                            <form class="new-post" action="/addPost" method="POST" enctype="multipart/form-data">
-                                        {{ csrf_field() }}
-                                    <div class="site-badge gray mb-3">Submission #{{count($posts) + 1}}</div>
-                                        <input type="text" name="title" class="title" placeholder="Title" required>
-                                        
-                                        <textarea class="subject" name="excerpt" placeholder="Subject" rows="3" required></textarea>
-
-                                        <div class="featured-image-upload">
-                                            <div class="icon">
-                                                <i class="fas fa-camera"></i>
-                                            </div>
-                                            <div class="text">Drop your photo</div>
-                                        </div>
-                                        
-                                        <input type="file" name="image" class="featured-image" accept="image/*" required />
-
-                                        <textarea class="body-content" name="body" placeholder="Wanna describe more?" rows="3" required></textarea>
-                            </from>
-                        </div>
-                        <div class="modal-footer text-right bg-light">
-                            <small class="mr-2 body-content-count">0/500</small>
-                            <button class="btn btn-primary">Submit for peer review</button>
-                        </div>
-            </div>
-        </div>
-    </div>
     
 @endsection
 

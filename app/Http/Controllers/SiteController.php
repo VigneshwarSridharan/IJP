@@ -199,11 +199,32 @@ class SiteController extends Controller
             "message" => "someting went wrong. please try again later."
         ];
         // $request->session()->flash('toast', $toast);
-        return view('welcome')->with('posts',$Posts);
+        return view('welcome')->with(['posts'=>$Posts]);
 
     }
 
+    public function posts() {
+        $result  = DB::table('posts')
+                    ->join('users', 'users.id', '=', 'posts.author_id')
+                    ->select('posts.*', 'users.name', 'users.avatar')
+                    ->where('posts.status','=','PUBLISHED')
+                    ->latest()
+                    // ->get()
+                    ->paginate(2)
+                    ->toArray();
+        $result['data'] = array_map(function($post) {
+            $post->excerpt=Str::words($post->excerpt,40,'...');
+            return $post;
+        },$result['data']);
+        return response()->json([
+            'status'=>'success',
+            'response' => $result,
+            'timestamp'=>Carbon::now()->toDateTimeLocalString()
+        ]);
+    }
+
     public function addPost(Request $request) {
+        dd($request->all());
 
         $post = new Post;
         $user = Auth::user();

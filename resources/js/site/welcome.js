@@ -1,12 +1,10 @@
-let {hash} = location;
-hash = hash.replace('#/','');
-if(hash == 'login') {
+let {pathname} = location;
+if(pathname == '/login') {
     $('#loginModal').modal('show');
 }
-if(hash == 'register') {
+if(pathname == '/register') {
     $('#registerModal').modal('show');
 }
-console.log(hash)
 
 let loginSubmitHandler = (form) => {
     let $form = $(form);

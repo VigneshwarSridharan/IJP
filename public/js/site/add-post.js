@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -170,15 +170,24 @@ $upload.on('drag dragstart dragend dragover dragenter dragleave drop', function 
     $upload.addClass('have-file');
   } // $('.featured-image').val(droppedFiles)
 
+}); // $('#new-post .body-content').on('input', function () {
+//     this.value = this.value.substr(0, 500);
+//     $('#new-post .body-content-count').text(this.value.length + '/500')
+// })
+
+$('#new-post .submit').on('click', function () {
+  console.log('sdfsd');
+  $('#new-post form').submit();
 });
-$('#new-post .body-content').on('input', function () {
-  this.value = this.value.substr(0, 500);
-  $('#new-post .body-content-count').text(this.value.length + '/500');
+$('#new-post form').validate({
+  submitHandler: function submitHandler(form) {
+    console.log(form);
+  }
 });
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!*********************************************!*\
   !*** multi ./resources/js/site/add-post.js ***!
   \*********************************************/

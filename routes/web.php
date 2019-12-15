@@ -20,15 +20,11 @@ use App\Mail\SendMailable;
 |
 */
 
-Route::get('/', 'SiteController@home')->name('login');
+Route::get('/', 'SiteController@home');
 
-Route::get('/login', function() {
-    return redirect('/#/login');
-})->name('login');
+Route::get('/login', 'SiteController@home')->name('login');
 
-Route::get('/register', function() {
-    return redirect('/');
-});
+Route::get('/register', 'SiteController@home');
 
 
 Route::post('/login','SiteController@login');
@@ -44,6 +40,8 @@ Route::post('/addPost', 'SiteController@addPost')->middleware('auth');
 Route::get('/profile', 'ProfileController@user')->middleware('auth');
 
 Route::post('/profile', 'ProfileController@update')->middleware('auth');
+
+Route::post('/posts', 'SiteController@posts');
 
 Route::get('/logout', function() {
     Auth::logout();
@@ -62,19 +60,8 @@ Route::get ( '/callback/{service}', 'SocialAuthController@callback' );
 
 Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
 
-Route::get ( '/test', function() {
-    $data = array('name'=>"Virat Gandhi");
-   
-    Mail::send('mail.basic', $data, function($message) {
-        $message->to('abc@gmail.com', 'Tutorials Point')
-                ->subject('Laravel Basic Testing Mail');
-        $message->from('xyz@gmail.com','Virat Gandhi');
-    });
-
-    // $name = "Virat Gandhi";
-    // Mail::send('viky.viky884@gmail.com')->send(new SendMailable($name));
-
-    return view('mail.basic')->with($data);
+Route::post ( '/test', function() {
+    return response()->json(Auth::user());
 } );
 
 Route::get('/clear', function() {

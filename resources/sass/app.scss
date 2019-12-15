@@ -5,6 +5,48 @@ body {
     background-color: #e6e5f4;
 }
 
+.select2-container {
+    width: 100% !important;
+    border-radius: 8px;
+}
+
+.tox-tinymce {
+    border-radius: 8px !important;
+}
+.tox {
+    .tox-statusbar{
+        background-color: #f7f7f7 !important;
+    }
+    .tox-menubar {
+        background-color: #f7f7f7 !important;
+    }
+    .tox-toolbar-overlord {
+        background-color: #f7f7f7 !important;
+    }
+    .tox-toolbar {
+        background-color: #f7f7f7 !important;
+    }
+    .tox-toolbar__overflow {
+        background-color: #f7f7f7 !important;
+    }
+    .tox-toolbar__primary {
+        background-color: #f7f7f7 !important;
+    }
+}
+.select2-container--default  {
+    .select2-selection--multiple {
+        border: 1px solid #f7f7f7;
+        background-color: #f7f7f7;
+    }
+    &.select2-container--focus {
+        .select2-selection--multiple {
+            background-color: #f7f7f7;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+    }
+}
+
 .navbar {
     background-color: #f7f6f9;
     .navbar-nav {
@@ -203,8 +245,10 @@ body {
 .login-form, .register-form {
     .form-control {
         border-radius: 0;
+        background-color: #ffffff;
         &:focus {
             box-shadow: none;
+            background-color: #ffffff;
         }
     }
 }

@@ -17,7 +17,7 @@ var droppedFiles = false;
 $upload.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
     e.preventDefault();
     e.stopPropagation();
-    })
+})
     .on('dragover dragenter', function () {
         $upload.addClass('is-dragover');
     })
@@ -32,13 +32,24 @@ $upload.on('drag dragstart dragend dragover dragenter dragleave drop', function 
         console.log(fileContext);
         fileContext.files = droppedFiles;
         $fileInput.trigger('change')
-        if(droppedFiles.length) {
+        if (droppedFiles.length) {
             $upload.addClass('have-file')
         }
         // $('.featured-image').val(droppedFiles)
     });
 
-    $('#new-post .body-content').on('input',function() {
-        this.value = this.value.substr(0,500);
-        $('#new-post .body-content-count').text(this.value.length+'/500')
-    })
+// $('#new-post .body-content').on('input', function () {
+//     this.value = this.value.substr(0, 500);
+//     $('#new-post .body-content-count').text(this.value.length + '/500')
+// })
+
+$('#new-post .submit').on('click',function() {
+    console.log('sdfsd')
+    $('#new-post form').submit()
+})
+
+$('#new-post form').validate({
+    submitHandler: form => {
+        console.log(form);
+    }
+});

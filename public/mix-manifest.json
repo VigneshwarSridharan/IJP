@@ -1,5 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/components/Posts.js": "/js/components/Posts.js",
+    "/js/script.js": "/js/script.js",
     "/js/site/add-post.js": "/js/site/add-post.js",
     "/js/site/profile.js": "/js/site/profile.js",
     "/js/site/welcome.js": "/js/site/welcome.js",

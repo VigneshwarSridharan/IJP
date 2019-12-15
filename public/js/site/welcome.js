@@ -94,18 +94,15 @@
 /***/ (function(module, exports) {
 
 var _location = location,
-    hash = _location.hash;
-hash = hash.replace('#/', '');
+    pathname = _location.pathname;
 
-if (hash == 'login') {
+if (pathname == '/login') {
   $('#loginModal').modal('show');
 }
 
-if (hash == 'register') {
+if (pathname == '/register') {
   $('#registerModal').modal('show');
 }
-
-console.log(hash);
 
 var loginSubmitHandler = function loginSubmitHandler(form) {
   var $form = $(form);

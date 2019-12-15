@@ -4,6 +4,7 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-sm-8">
+            <div id="posts"></div>
             @foreach ($posts as $key => $post)
                 <div class="card mb-3 post-item pointer" data-toggle="modal" data-target="#post-{{$key}}">
                     <div class="card-body d-flex">
@@ -81,143 +82,6 @@
         </div>
     @endforeach
 
-    @if(!Auth::check())
-        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog " role="document">
-                <div class="modal-content border-0">
-                    <div class="modal-body bg-light rounded">
-                        <div class="row align-items-center">
-                            <div class="col-sm-12">
-                                <div class="login-wrapper">
-                                    <div class="text-center">
-                                        <img class="mb-5" src="{{ url('storage/'.setting('site.logo') )}}" alt="{{ setting('site.title')}}"/>
-                                        <h4>Indian journal of photography</h4>
-                                        <div class="sub-title mb-3">By Indians, for Indians</div>
-                                    </div>
-                                    <form class="login-form" autocomplete="nope" action="/login" method="POST">
-                                        {{ csrf_field() }}
-                                        <div class="border mb-3 bg-white">
-                                            <div class="form-group m-0">
-                                                <div class="input-group border-bottom">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-envelope"></i></span>
-                                                    </div>
-                                                    <input type="email" name="username" class="form-control border-0" placeholder="Email" autocomplete="nope" value="" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group m-0">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-key"></i></span>
-                                                    </div>
-                                                    <input type="password" name="password" class="form-control border-0" placeholder="Password" autocomplete="nope" value="" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-2 message"></div>
-                                        <button type="submit" class="btn btn-primary btn-block mb-3">Login</button>
-                                        <div class="other-options">
-                                            <div class="border-bottom"></div>
-                                            <div class="text">OR</div>
-                                        </div>
-                                        <a href="/redirect/google" class="btn btn-primary btn-block mb-3 google"><i class="fab fa-google mr-2"></i> Continue with Google</a>
-                                        <a href="/redirect/facebook" class="btn btn-primary btn-block mb-3 facebook"><i class="fab fa-facebook-square mr-2"></i> Continue with Facebook</a>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content border-0">
-                    <div class="modal-body bg-light rounded">
-                        <div class="row align-items-center">
-                            <div class="col-sm-12">
-                                <div class="register-wrapper">
-                                    <div class="text-center">
-                                        <img class="mb-5" src="{{ url('storage/'.setting('site.logo') )}}" alt="{{ setting('site.title')}}"/>
-                                        <h4>Indian journal of photography</h4>
-                                        <div class="sub-title mb-3">By Indians, for Indians</div>
-                                    </div>
-                                    <form class="register-form" autocomplete="nope" action="/register" method="POST">
-                                        {{ csrf_field() }}
-                                        <div class="border mb-3 bg-white">
-                                            <div class="form-group m-0">
-                                                <div class="input-group border-bottom">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-user"></i></span>
-                                                    </div>
-                                                    <input type="text" name="name" class="form-control border-0" placeholder="Full Name" autocomplete="nope" value="" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group m-0">
-                                                <div class="input-group border-bottom">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-envelope"></i></span>
-                                                    </div>
-                                                    <input type="email" name="username" class="form-control border-0" placeholder="Email" autocomplete="nope" value="" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group m-0">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-transparent border-0 color-secondary" id="inputGroup-sizing-default"><i class="fas fa-key"></i></span>
-                                                    </div>
-                                                    <input type="password" name="password" class="form-control border-0" placeholder="Password" autocomplete="nope" value="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="message"></div>
-                                        <button type="submit" class="btn btn-primary btn-block mb-3">Register</button>
-                                        <div class="other-options">
-                                            <div class="border-bottom"></div>
-                                            <div class="text">OR</div>
-                                        </div>
-                                        <a href="/redirect/google" class="btn btn-primary btn-block mb-3 google"><i class="fab fa-google mr-2"></i> Continue with Google</a>
-                                        <a href="/redirect/facebook" class="btn btn-primary btn-block mb-3 facebook"><i class="fab fa-facebook-square mr-2"></i> Continue with Facebook</a>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @else
-        <div class="modal fade" id="new-post" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
-                <div class="modal-content border-0">
-                            <div class="modal-body rounded">
-                                <form class="new-post" action="/addPost" method="POST" enctype="multipart/form-data">
-                                         {{ csrf_field() }}
-                                        <div class="site-badge gray mb-3">Submission #{{count($posts) + 1}}</div>
-                                            <input type="text" name="title" class="title" placeholder="Title" required>
-                                            
-                                            <textarea class="subject" name="excerpt" placeholder="Subject" rows="3" required></textarea>
-
-                                            <div class="featured-image-upload">
-                                                <div class="icon">
-                                                    <i class="fas fa-camera"></i>
-                                                </div>
-                                                <div class="text">Drop your photo</div>
-                                            </div>
-                                            
-                                            <input type="file" name="image" class="featured-image" accept="image/*" required />
-
-                                            <textarea class="body-content" name="body" placeholder="Wanna describe more?" rows="3" required></textarea>
-                                </from>
-                            </div>
-                            <div class="modal-footer text-right bg-light">
-                                <small class="mr-2 body-content-count">0/500</small>
-                                <button class="btn btn-primary">Submit for peer review</button>
-                            </div>
-                </div>
-            </div>
-        </div>
-    @endif
 @endsection
 
 @push('styles')
@@ -229,6 +93,7 @@
     <script src="{{url('js/lib/jquery.validate.js')}}"></script>
     <script src="{{url('js/lib/additional-methods.js')}}"></script>
     <script src="{{url('js/site/add-post.js')}}"></script>
+    <script src="{{url('js/components/Posts.js')}}"></script>
     @if(!Auth::check())
         <script src="{{url('js/site/welcome.js')}}"></script>
     @endif

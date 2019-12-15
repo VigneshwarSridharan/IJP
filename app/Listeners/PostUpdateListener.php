@@ -30,7 +30,7 @@ class PostUpdateListener
     public function handle($event)
     {
         //
-        if($event->dataType->name == "posts" && $event->data->status == "PUBLISHED" || true) {
+        if($event->dataType->name == "posts" && $event->data->status == "PUBLISHED") {
             $post = Post::find($event->data->id);
             if($post->approved_by == null) {
                 $user = User::find($post->author_id);

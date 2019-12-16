@@ -9,7 +9,7 @@
                     <div class="card-body d-flex">
                         @if($post->status == 'PUBLISHED')
                             <div class="site-badge blue mb-3">Published</div>
-                        @elseif($post->status == 'PENDING')
+                        @else
                             <div class="site-badge orange mb-3">Pending</div>
                         @endif
                         <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>

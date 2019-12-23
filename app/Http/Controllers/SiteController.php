@@ -243,18 +243,48 @@ class SiteController extends Controller
         ]);
     }
 
+    public function postDetails($id) {
+        $result = [
+            "status" => "success",
+            "response" => ""
+        ];
+        $post = Post::find($id);
+        if(isset($post)) {
+            $result['response'] = $post;
+        }
+        else {
+            $result['status'] = 'error';
+            $result['response'] = 'Post Not found!';
+
+        }
+        return response()->json($result);
+    }
+
     public function addPost(Request $request) {
-        // dd($request->all());
 
-        $post = new Post;
         $user = Auth::user();
+        
+        if(isset($request->post_id)) {
+            $post = Post::find($request->post_id);
+        }
+        else {
+            $post = new Post;
+        }
 
+        if(isset($post->title)) {
+            echo $post->title;
+        }
+        else {
+            echo 'no title';
+        }
+        
         $post->title = $request->title;
         $post->slug = str_replace(' ','-',strtolower($request->title));
         $post->excerpt = preg_replace('/<[^>]*>/','',$request->description);
         $post->body = $request->description;
         $post->author_id = $user->id;
         $post->category_id = $request->category;
+
         if($request->is_draft == '1') {
             $post->status = 'DRAFT';
         }
@@ -274,16 +304,24 @@ class SiteController extends Controller
 
         $post->save();
 
-        $mailData= [
-            'name' => $user->name,
-            'title' => $post->title
-        ];
-        Mail::send('mail.postSubmit', $mailData, function($message) use ($user) {
-            $message->to($user->email, $user->name)
-                    ->subject('Post Submission');
-            $message->from(setting('site.email'),setting('site.title'));
-        });
+        if($post->status == 'PENDING') {
+            $mailData= [
+                'name' => $user->name,
+                'title' => $post->title
+            ];
+            Mail::send('mail.postSubmit', $mailData, function($message) use ($user) {
+                $message->to($user->email, $user->name)
+                        ->subject('Post Submission');
+                $message->from(setting('site.email'),setting('site.title'));
+            });
+        }
 
-        return redirect('/')->with('message','Sent for peer review');
+
+        $toast = [
+            "type"=>"success",
+            "message" => "Sent for peer review"
+        ];
+
+        return redirect()->back()->with('toast',$toast);
     }
 }

@@ -164,6 +164,7 @@
                         <form class="new-post" action="/addPost" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" value="0" name="is_draft" />
+                            <input type="hidden" value="" name="post_id" />
                             <h5 class="text-primary">Personal Information</h5>
                             <div class="form-group">
                                 <label>Name</label>
@@ -199,11 +200,12 @@
                             </div>
                             <div class="form-group">
                                 <label>Article Description</label>
-                                <textarea class="form-control" id="mytextarea" name="description" required></textarea>
+                                <textarea class="form-control tinyMCE" id="mytextarea" name="description" required></textarea>
                                 <small class="form-text text-muted">Maximum 300 words only allowed!</small>
                             </div>
                             <div class="form-group">
                                 <label>Upload Your Photo</label>
+                                <div class="preview"></div>
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="image" aria-describedby="inputGroupFileAddon01" accept="image/*" required>
@@ -246,9 +248,12 @@
     <script src="{{url('js/lib/jquery.toast.min.js')}}"></script>
     <script src="{{url('js/lib/select2/select2.full.min.js')}}"></script>
     <script src="https://cdn.tiny.cloud/1/ggcddu7bj27dpcsxm3cwuns5nyvvgnzctq7l3jt6hk2dxp2j/tinymce/5/tinymce.min.js"></script>
+    <script src="{{url('js/lib/jquery.validate.js')}}"></script>
+    <script src="{{url('js/lib/additional-methods.js')}}"></script>
     <script>
       window.url = (url='') => `{{url('/')}}${(url[0] != '/' ? '/' : '') + url}`;
       window.storage = (url='') => `{{url('/storage')}}${(url[0] != '/' ? '/' : '') + url}`;
+      window._token = '{{csrf_token()}}';
       @if(Session::has('toast'))
           @php $toast = Session::get('toast'); @endphp
             let bg = {
@@ -272,6 +277,7 @@
       @endif
     </script>
     <script src="{{url('js/script.js')}}"></script>
+    <script src="{{url('js/site/add-post.js')}}"></script>
     @stack('scripts')
 
   </body>

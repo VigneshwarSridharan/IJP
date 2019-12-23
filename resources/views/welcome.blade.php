@@ -103,9 +103,6 @@
 
 @push('scripts')
     <script src="{{url('js/lib/perfect-scrollbar.min.js')}}"></script>
-    <script src="{{url('js/lib/jquery.validate.js')}}"></script>
-    <script src="{{url('js/lib/additional-methods.js')}}"></script>
-    <script src="{{url('js/site/add-post.js')}}"></script>
     @if(!Auth::check())
         <script src="{{url('js/site/welcome.js')}}"></script>
     @endif

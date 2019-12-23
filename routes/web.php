@@ -43,6 +43,8 @@ Route::post('/profile', 'ProfileController@update')->middleware('auth');
 
 Route::post('/posts', 'SiteController@posts');
 
+Route::post('/posts/{id}', 'SiteController@postDetails');
+
 Route::get('/category/{category}',"SiteController@category");
 
 Route::get('/logout', function() {

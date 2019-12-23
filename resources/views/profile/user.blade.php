@@ -5,13 +5,9 @@
         <div class="row">
             <div class="col-sm-8">
             @foreach ($posts as $key => $post)
-                <div class="card mb-3 post-item pointer" data-toggle="modal" data-target="#post-{{$key}}">
+                <div class="card mb-3 post-item pointer" data-edit="{{$post->id}}">
                     <div class="card-body d-flex">
-                        @if($post->status == 'PUBLISHED')
-                            <div class="site-badge blue mb-3">Published</div>
-                        @else
-                            <div class="site-badge orange mb-3">Pending</div>
-                        @endif
+                        <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
                         <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
                         <div class="content">
                             <h4 class="title">{{$post->title}}</h4>

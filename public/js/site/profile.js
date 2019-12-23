@@ -93,7 +93,47 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+$(document).ready(function () {
+  $('[data-edit]').on('click', function (_ref) {
+    var elm = _ref.currentTarget;
+    var id = $(elm).data('edit');
+    $.ajax({
+      url: '/posts/' + id,
+      dataType: 'json',
+      method: 'POST',
+      data: {
+        _token: _token
+      },
+      success: function success(_ref2) {
+        var status = _ref2.status,
+            response = _ref2.response;
 
+        if (status == 'success') {
+          var $form = $('#new-post form');
+          var title = response.title,
+              category_id = response.category_id,
+              body = response.body,
+              image = response.image,
+              meta_keywords = response.meta_keywords,
+              _id = response.id;
+          console.log($form.data());
+          $form.find('[name="post_id"]').val(_id);
+          $form.find('[name="title"]').val(title);
+          $form.find('[name="category"]').val(category_id);
+          $form.find('#category-' + category_id).prop('checked', true);
+          $form.find('[name="keywords[]"]').html(meta_keywords.split(', ').map(function (v) {
+            return "<option selected>".concat(v, "</option>");
+          }));
+          $form.find('[name="description"]').val(body);
+          tinyMCE.activeEditor.setContent(body);
+          $form.find('.preview').html("<img src=\"".concat(storage(image), "\" class=\"mb-2\" width=\"250\" />"));
+          $form.find('[name="image"]').prop('required', false);
+          $('#new-post').modal('show');
+        }
+      }
+    });
+  });
+});
 
 /***/ }),
 

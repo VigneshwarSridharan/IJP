@@ -2,7 +2,18 @@ $(document).ready(() => {
     if ($('.select2').length) {
         $('.select2').select2()
     }
-
+    $('.modal').on('hidden.bs.modal',function() {
+        $(this).find('form').each((k,form) => {
+            $(form).find('select.select2').html('');
+            $(form).find('.preview').html('');
+            form.reset();
+            $(form).find('select.select2').trigger('change');
+            $(form).find('.custom-file .custom-file-label').html('Choose file');
+            $(form).validate().resetForm();
+            $(form).validate().destroy();
+            tinyMCE.activeEditor.setContent('');
+        })
+    })
     tinymce.init({
         selector: '#mytextarea',
         plugins: "wordcount link",

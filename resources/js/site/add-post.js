@@ -56,21 +56,24 @@ $('#new-post .draft').on('click',function() {
     
 // });
 
-$('#new-post form').validate({
-    submitHandler: form => {
-        let $form = $(form);
-        form.submit();
-    },
-    errorElement: 'span',
-    errorPlacement: function (error, element) {
-        error.addClass('invalid-feedback');
-        element.closest('.form-group').append(error);
-    },
-    highlight: function (element, errorClass, validClass) {
-        $(element).addClass('is-invalid');
-    },
-    unhighlight: function (element, errorClass, validClass) {
-        $(element).removeClass('is-invalid');
-    },
-    ignore:[]
-});
+$('#new-post').on('show.bs.modal',function() {
+    // $('#new-post form').find('[name="image"]').prop('required',true)
+    $('#new-post form').validate({
+        submitHandler: form => {
+            let $form = $(form);
+            form.submit();
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        ignore:[]
+    });
+})

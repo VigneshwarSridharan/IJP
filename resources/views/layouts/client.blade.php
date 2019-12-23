@@ -18,9 +18,13 @@
     <title>{{ setting('site.title')}}</title>
   </head>
   <body>
-    @include('components.navigation')
-    @yield('content')
-    <section class="site-footer py-2 bg-white text-center shadow-lg text-dark">All rights reserved by <a href="/">{{ setting('site.title')}}</a>.</section>
+    <div class="site-wrppaer">
+        @include('components.navigation')
+        <div class="site-content">
+            @yield('content')
+        </div>
+        <section class="site-footer py-2 bg-white text-center shadow-lg text-dark">All rights reserved by <a href="/">{{ setting('site.title')}}</a>.</section>
+    </div>
     @if(!Auth::check())
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">

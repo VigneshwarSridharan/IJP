@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 
-use \TCG\Voyager\Models\Post;
+use \TCG\Voyager\Models\Page;
 
 // use Mail;
 use Illuminate\Support\Facades\Mail;
@@ -21,6 +21,7 @@ use App\Mail\SendMailable;
 */
 
 Route::get('/', 'SiteController@home');
+
 
 Route::get('/login', 'SiteController@home')->name('login');
 
@@ -84,4 +85,9 @@ Route::get('/clear', function() {
     Artisan::call('storage:link');
 
     return 'Storage linked done!';
+ });
+
+ Route::get('/about-us', function() {
+    $page = Page::where('slug','=','about-us')->first();
+    return view('page')->with('page',$page);
  });

@@ -25,7 +25,7 @@
                     <a class="nav-link" href="{{Auth::check() ? '#new-post' :'#loginModal'}}" data-toggle="modal" ><small class="fas fa-camera-retro mr-2"></small> Submit your photos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><small class="fas fa-users mr-2"></small> About us</a>
+                    <a class="nav-link" href="/about-us"><small class="fas fa-users mr-2"></small> About us</a>
                 </li>
                 
             </ul>

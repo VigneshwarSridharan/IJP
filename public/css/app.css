@@ -11108,6 +11108,20 @@ body {
   background-color: #e6e5f4;
 }
 
+.site-wrppaer {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  height: 100vh;
+}
+
+.site-wrppaer .site-content {
+  height: 100%;
+  overflow: auto;
+}
+
 .select2-container {
   width: 100% !important;
   border-radius: 8px;

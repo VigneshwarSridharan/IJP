@@ -4,35 +4,57 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-sm-8">
-            @if(count($posts) == 0)
-                <div class="card mb-3 post-item">
-                    <div class="card-body text-center">
-                        <h3>No results found</h3>
+                @if(count($posts['data']) == 0)
+                    <div class="card mb-3 post-item">
+                        <div class="card-body text-center">
+                            <h3>No results found</h3>
+                        </div>
                     </div>
-                </div>
-            @endif
-            @foreach ($posts as $key => $post)
-                <div class="card mb-3 post-item pointer" data-toggle="modal" data-target="#post-{{$key}}">
-                    <div class="card-body d-flex">
-                        <div class="site-badge blue mb-3">Issue #{{$post->id+1}}</div>
-                        <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                        <div class="content">
-                            <h4 class="title">{{$post->title}}</h4>
-                            <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <ul class="post-info">
-                                    <li><i class="fas fa-thumbs-up"></i> 45</li>
-                                    <li><i class="fas fa-comment"></i> 32</li>
-                                </ul>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>
-                                    <div>{{$post->name}}</div>
+                @endif
+                @foreach ($posts['data'] as $key => $post)
+                    <div class="card mb-3 post-item">
+                        <div class="card-body d-flex">
+                            <div class="site-badge blue mb-3">Issue #{{$post->id+1}}</div>
+                            <div 
+                                class="featured-image pointer" 
+                                style="background-image: url({{url('storage/'.$post->image)}});" 
+                                data-toggle="modal" 
+                                data-target="#post-{{$key}}"
+                            ></div>
+                            <div class="content">
+                                <h4 class="title pointer" data-toggle="modal" data-target="#post-{{$key}}">{{$post->title}}</h4>
+                                <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <ul class="post-info">
+                                        <li><i class="fas fa-thumbs-up"></i> 45</li>
+                                        <li><i class="fas fa-comment"></i> 32</li>
+                                    </ul>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>
+                                        <div>{{$post->name}}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+                @if($posts['prev_page_url'] || $posts['next_page_url'])
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @if($posts['prev_page_url'])
+                                <a class="btn btn-primary" href="{{$posts['prev_page_url']}}">Previous</a>
+                            @endif
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <p>{{$posts['current_page']}} / {{$posts['last_page']}}</p>
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            @if($posts['next_page_url'])
+                                <a class="btn btn-primary" href="{{$posts['next_page_url']}}">Next</a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-sm-4">
                 @if(!Auth::check())
@@ -67,7 +89,7 @@
         </div>
     </div>
 
-    @foreach ($posts as $key => $post)
+    @foreach ($posts['data'] as $key => $post)
         <div class="modal fade" id="post-{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">

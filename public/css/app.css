@@ -11108,6 +11108,23 @@ body {
   background-color: #e6e5f4;
 }
 
+.page-not-found {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.page-not-found .content {
+  margin-left: 1rem;
+  padding-left: 1rem;
+  opacity: 0.5;
+}
+
+.page-not-found .content h1 {
+  font-size: 100px;
+}
+
 .site-wrppaer {
   display: -webkit-box;
   display: flex;

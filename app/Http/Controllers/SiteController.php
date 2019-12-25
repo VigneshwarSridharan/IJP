@@ -188,19 +188,24 @@ class SiteController extends Controller
     }
 
     public function home(Request $request) {
-        // $Posts = Post::all();
-        $Posts  = DB::table('posts')
-                    ->join('users', 'users.id', '=', 'posts.author_id')
-                    ->select('posts.*', 'users.name', 'users.avatar')
-                    ->where('posts.status','=','PUBLISHED')
+        
+        $posts  = DB::table('posts')
+                    ->leftjoin('users', 'users.id', '=', 'posts.author_id')
+                    ->select(['posts.*', 'users.name', 'users.avatar',])
+                    ->whereRaw('posts.status = "PUBLISHED"')
                     ->latest()
-                    ->get();
+                    ->paginate()
+                    ->toArray();
+                    // ->get();
+                    // SELECT posts.*, COUNT(comments.post_id) as 'commentsCount' FROM posts LEFT JOIN comments ON posts.id = comments.post_id WHERE posts.status = 'PUBLISHED' GROUP BY posts.id ORDER BY posts.created_at DESC
+
         $toast = [
             "type"=>"info",
             "message" => "someting went wrong. please try again later."
         ];
+        // dd($posts['data']);
         // $request->session()->flash('toast', $toast);
-        return view('welcome')->with(['posts'=>$Posts]);
+        return view('welcome')->with(['posts'=>$posts]);
 
     }
 

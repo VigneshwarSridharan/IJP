@@ -67,7 +67,7 @@ Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
 
 Route::post ( '/test', function() {
     return response()->json(Auth::user());
-} );
+});
 
 Route::get('/clear', function() {
 
@@ -75,19 +75,25 @@ Route::get('/clear', function() {
     Artisan::call('config:clear');
     Artisan::call('config:cache');
     Artisan::call('view:clear');
- 
+
     return "Cleared!";
  
- });
+});
 
- Route::get('/storage', function() {
-     
+Route::get('/storage', function() {
+    
     Artisan::call('storage:link');
 
     return 'Storage linked done!';
- });
+});
 
- Route::get('/about-us', function() {
-    $page = Page::where('slug','=','about-us')->first();
-    return view('page')->with('page',$page);
- });
+
+Route::get('{slug}', function($slug) {
+    $page = Page::where('slug','=',$slug)->first();
+    if(isset($page)) {
+        return view('page')->with('page',$page);
+    }
+    else {
+        return view('errors.404');
+    }
+});

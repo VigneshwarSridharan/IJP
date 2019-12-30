@@ -106,6 +106,7 @@ if (pathname == '/register') {
 
 var loginSubmitHandler = function loginSubmitHandler(form) {
   var $form = $(form);
+  var text = $form.find('[type="submit"]').html();
   $form.find('[type="submit"]').html("<i class=\"fas fa-spinner fa-pulse\"></i>").attr('disabled', 'disabled');
   var data = $form.serializeArray();
   $.ajax({
@@ -120,7 +121,7 @@ var loginSubmitHandler = function loginSubmitHandler(form) {
       if (status == 'success') {
         form.submit();
       } else {
-        $form.find('[type="submit"]').html("Login").removeAttr('disabled');
+        $form.find('[type="submit"]').html(text).removeAttr('disabled');
         var $message = $form.find('.message');
         $message.html("\n                <div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">\n                    ".concat(data, "\n                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n                        <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                </div>\n                ")).hide().animate({
           height: 'toggle'

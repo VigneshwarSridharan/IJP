@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\User;
+use App\Comment;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -190,20 +191,36 @@ class SiteController extends Controller
     public function home(Request $request) {
         
         $posts  = DB::table('posts')
+                    ->select([
+                            'posts.*',
+                            'users.name',
+                            'users.avatar',
+                            DB::raw("COUNT(comments.post_id) as comments_count")
+                          ])
                     ->leftjoin('users', 'users.id', '=', 'posts.author_id')
-                    ->select(['posts.*', 'users.name', 'users.avatar',])
-                    ->whereRaw('posts.status = "PUBLISHED"')
+                    ->leftjoin('comments', 'posts.id', '=', 'comments.post_id')
+                    ->where("posts.status", "=" ,"PUBLISHED")
+                    ->groupBy('posts.id')
                     ->latest()
                     ->paginate()
                     ->toArray();
                     // ->get();
                     // SELECT posts.*, COUNT(comments.post_id) as 'commentsCount' FROM posts LEFT JOIN comments ON posts.id = comments.post_id WHERE posts.status = 'PUBLISHED' GROUP BY posts.id ORDER BY posts.created_at DESC
-
+        $comments = [];
+        if(Auth::check()) {
+            $comments = Comment::select('post_id')->where('comment_by','=',Auth::user()->id)->get()->toArray();
+            $comments = array_map(function($item) {return $item['post_id'];},$comments);
+        }
+        $posts['data'] = array_map(function($item)use($comments) {
+            $item->active_comment = array_search($item->id,$comments) !== false;
+            return $item;
+        },$posts['data']);
         $toast = [
             "type"=>"info",
             "message" => "someting went wrong. please try again later."
         ];
-        // dd($posts['data']);
+
+        // return response()->json($posts);
         // $request->session()->flash('toast', $toast);
         return view('welcome')->with(['posts'=>$posts]);
 
@@ -248,6 +265,47 @@ class SiteController extends Controller
         ]);
     }
 
+    public function comments($id) {
+        $result = [
+            "status" => "success",
+            "response" => ""
+        ];
+        $comments = Comment::select(['comments.*','users.name', 'users.avatar'])
+                            ->join('users', 'users.id', '=', 'comments.comment_by')
+                            ->where('post_id','=',$id)
+                            ->latest()
+                            ->get();
+        if(isset($comments)) {
+            $result['response'] = $comments;
+        }
+        else {
+            $result['status'] = 'error';
+            $result['response'] = 'No comments found!';
+        }
+        return response()->json($result);
+    }
+
+    public function addComments(Request $request) {
+        $result = [
+            "status" => "success",
+            "response" => ""
+        ];
+
+        $comment = new Comment;
+        $comment->comment = $request->comment;
+        $comment->post_id = $request->post_id;
+        $comment->comment_by = Auth::user()->id;
+        if($comment->save()) {
+            $result['response'] = $comment;
+            $result['response']['name'] = Auth::user()->name;
+            $result['response']['avatar'] = Auth::user()->avatar;
+        }
+        else {
+            $result['status'] = 'error';
+            $result['response'] = 'Someting went wrong!';
+        }
+        return response()->json($result);
+    }
     public function postDetails($id) {
         $result = [
             "status" => "success",

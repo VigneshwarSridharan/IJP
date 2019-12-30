@@ -105,8 +105,8 @@ $(document).ready(function () {
       form.reset();
       $(form).find('select.select2').trigger('change');
       $(form).find('.custom-file .custom-file-label').html('Choose file');
-      $(form).validate().resetForm();
-      $(form).validate().destroy();
+      $(form).validate().resetForm(); // $(form).validate().destroy();
+
       tinyMCE.activeEditor.setContent('');
     });
   });
@@ -134,6 +134,74 @@ $(document).ready(function () {
   });
   $('.custom-file input').change(function (e) {
     $(this).next('.custom-file-label').html(e.target.files[0].name);
+  });
+  $(document).on('show.bs.modal', '.modal', function (event) {
+    var zIndex = 1040 + 10 * $('.modal:visible').length;
+    $(this).css('z-index', zIndex);
+    setTimeout(function () {
+      $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+    }, 0);
+  });
+  $('[data-post]').on('click', function () {
+    var id = $(this).data('post');
+    console.log(id);
+    $('#post-' + id).modal('show');
+    $.ajax({
+      url: "posts/".concat(id, "/comments"),
+      dataType: 'json',
+      success: function success(_ref) {
+        var status = _ref.status,
+            response = _ref.response;
+
+        if (status == 'success') {
+          $('#comments-' + id).html("\n                        <div class=\"list-group mb-3\">\n                        ".concat(response.map(function (item) {
+            return "\n                                    <div class=\"list-group-item d-flex align-items-center justify-content-between\">\n                                        <div>".concat(item.comment, "</div>\n                                        <img src=\"").concat(storage(item.avatar), "\" class=\"rounded-circle\" height=\"40\" />\n                                    </div>\n                                    ");
+          }).join(''), "\n                        </div>"));
+        }
+
+        console.log(response);
+      }
+    });
+  });
+  $('.add-comment').each(function (k, el) {
+    $(el).validate({
+      errorElement: 'span',
+      errorPlacement: function errorPlacement(error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function highlight(element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function unhighlight(element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+      },
+      submitHandler: function submitHandler(form) {
+        var $form = $(form);
+        var text = $form.find('[type="submit"]').html();
+        $form.find('[type="submit"]').html("<i class=\"fas fa-spinner fa-pulse\"></i>").attr('disabled', 'disabled');
+        var data = $form.serializeArray();
+        var id = $form.find('[name="post_id"]').val();
+        $.ajax({
+          url: "posts/".concat(id, "/comments"),
+          method: 'POST',
+          dataType: 'json',
+          data: data,
+          success: function success(_ref2) {
+            var status = _ref2.status,
+                response = _ref2.response;
+            form.reset();
+
+            if (status == 'success') {
+              $('#comments-' + id + ' .list-group').prepend("\n                            <div class=\"list-group-item d-flex align-items-center justify-content-between\">\n                                <div>".concat(response.comment, "</div>\n                                <img src=\"").concat(storage(response.avatar), "\" class=\"rounded-circle\" height=\"40\" />\n                            </div>\n                            "));
+              $form.find('[type="submit"]').html(text).removeAttr('disabled');
+              var count = Number($('.post-info .comment-' + id).eq(0).find('span').text());
+              $('.post-info .comment-' + id).addClass('text-primary').find('span').text(count + 1);
+            }
+          }
+        });
+      }
+    });
   });
 });
 

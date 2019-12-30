@@ -12,22 +12,21 @@
                     </div>
                 @endif
                 @foreach ($posts['data'] as $key => $post)
-                    <div class="card mb-3 post-item">
+                    <div class="card mb-3 post-item pointer" data-post="{{$post->id}}" >
                         <div class="card-body d-flex">
                             <div class="site-badge blue mb-3">Issue #{{$post->id+1}}</div>
                             <div 
-                                class="featured-image pointer" 
+                                class="featured-image" 
                                 style="background-image: url({{url('storage/'.$post->image)}});" 
-                                data-toggle="modal" 
-                                data-target="#post-{{$key}}"
+                                
                             ></div>
                             <div class="content">
-                                <h4 class="title pointer" data-toggle="modal" data-target="#post-{{$key}}">{{$post->title}}</h4>
+                                <h4 class="title">{{$post->title}}</h4>
                                 <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <ul class="post-info">
-                                        <li><i class="fas fa-thumbs-up"></i> 45</li>
-                                        <li><i class="fas fa-comment"></i> 32</li>
+                                        <li class="like-{{$post->id}}"><i class="fas fa-thumbs-up"></i> <span>45</span></li>
+                                        <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
                                     </ul>
                                     <div class="d-flex align-items-center">
                                         <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>
@@ -90,7 +89,7 @@
     </div>
 
     @foreach ($posts['data'] as $key => $post)
-        <div class="modal fade" id="post-{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="post-{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">
                     <div class="modal-body bg-light rounded">
@@ -99,12 +98,34 @@
                         <p class="excerpt">{{$post->excerpt }}</p>
                         <img src="{{ url('storage/'.$post->image) }}" class="img-fluid rounded mb-3" />
                         {!!$post->body!!}
+                        <h4>Comments</h4>
+                        <div id="comments-{{$post->id}}">
+                            <h1 class="text-primary text-center">
+                                <i class="fas fa-spinner fa-pulse"></i>
+                            </h1>
+                        </div>
+                        @if(Auth::check()) 
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="add-comment">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="post_id" value="{{$post->id}}" />
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="comment" rows="5" placeholder="Leave your comment here!!!" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <div class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Add Comment</div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <div class="d-flex justify-content-between align-items-center bg-light mt-2 w-100">
                             <ul class="post-info">
-                                <li><i class="fas fa-thumbs-up"></i> 45</li>
-                                <li><i class="fas fa-comment"></i> 32</li>
+                                <li class="like-{{$post->id}}"><i class="fas fa-thumbs-up"></i> <span>45</span></li>
+                                <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
                             </ul>
                             <div class="d-flex align-items-center">
                                 <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>

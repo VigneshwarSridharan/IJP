@@ -56,7 +56,7 @@ $('#new-post .draft').on('click',function() {
     
 // });
 
-$('#new-post').on('show.bs.modal',function() {
+// $('#new-post').on('show.bs.modal',function() {
     // $('#new-post form').find('[name="image"]').prop('required',true)
     $('#new-post form').validate({
         submitHandler: form => {
@@ -76,4 +76,4 @@ $('#new-post').on('show.bs.modal',function() {
         },
         ignore:[]
     });
-})
+// })

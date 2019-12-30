@@ -46,6 +46,10 @@ Route::post('/posts', 'SiteController@posts');
 
 Route::post('/posts/{id}', 'SiteController@postDetails');
 
+Route::get('/posts/{id}/comments', 'SiteController@comments');
+
+Route::post('/posts/{id}/comments', 'SiteController@addComments');
+
 Route::get('/category/{category}',"SiteController@category");
 
 Route::get('/logout', function() {

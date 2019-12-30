@@ -1,13 +1,14 @@
-let {pathname} = location;
-if(pathname == '/login') {
+let { pathname } = location;
+if (pathname == '/login') {
     $('#loginModal').modal('show');
 }
-if(pathname == '/register') {
+if (pathname == '/register') {
     $('#registerModal').modal('show');
 }
 
 let loginSubmitHandler = (form) => {
     let $form = $(form);
+    let text = $form.find('[type="submit"]').html();
     $form.find('[type="submit"]').html(`<i class="fas fa-spinner fa-pulse"></i>`).attr('disabled', 'disabled');
     let data = $form.serializeArray();
     $.ajax({
@@ -21,7 +22,7 @@ let loginSubmitHandler = (form) => {
                 form.submit();
             }
             else {
-                $form.find('[type="submit"]').html(`Login`).removeAttr('disabled')
+                $form.find('[type="submit"]').html(text).removeAttr('disabled')
                 let $message = $form.find('.message');
                 $message.html(`
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">

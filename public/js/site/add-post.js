@@ -184,28 +184,27 @@ $('#new-post .draft').on('click', function () {
   $('#new-post form').submit();
 }); // jQuery.validator.setDefaults({
 // });
+// $('#new-post').on('show.bs.modal',function() {
+// $('#new-post form').find('[name="image"]').prop('required',true)
 
-$('#new-post').on('show.bs.modal', function () {
-  // $('#new-post form').find('[name="image"]').prop('required',true)
-  $('#new-post form').validate({
-    submitHandler: function submitHandler(form) {
-      var $form = $(form);
-      form.submit();
-    },
-    errorElement: 'span',
-    errorPlacement: function errorPlacement(error, element) {
-      error.addClass('invalid-feedback');
-      element.closest('.form-group').append(error);
-    },
-    highlight: function highlight(element, errorClass, validClass) {
-      $(element).addClass('is-invalid');
-    },
-    unhighlight: function unhighlight(element, errorClass, validClass) {
-      $(element).removeClass('is-invalid');
-    },
-    ignore: []
-  });
-});
+$('#new-post form').validate({
+  submitHandler: function submitHandler(form) {
+    var $form = $(form);
+    form.submit();
+  },
+  errorElement: 'span',
+  errorPlacement: function errorPlacement(error, element) {
+    error.addClass('invalid-feedback');
+    element.closest('.form-group').append(error);
+  },
+  highlight: function highlight(element, errorClass, validClass) {
+    $(element).addClass('is-invalid');
+  },
+  unhighlight: function unhighlight(element, errorClass, validClass) {
+    $(element).removeClass('is-invalid');
+  },
+  ignore: []
+}); // })
 
 /***/ }),
 

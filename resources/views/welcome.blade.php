@@ -25,7 +25,7 @@
                                 <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <ul class="post-info">
-                                        <li class="like-{{$post->id}}"><i class="fas fa-thumbs-up"></i> <span>45</span></li>
+                                        <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}"><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
                                         <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
                                     </ul>
                                     <div class="d-flex align-items-center">
@@ -124,7 +124,7 @@
                     <div class="modal-footer">
                         <div class="d-flex justify-content-between align-items-center bg-light mt-2 w-100">
                             <ul class="post-info">
-                                <li class="like-{{$post->id}}"><i class="fas fa-thumbs-up"></i> <span>45</span></li>
+                                <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}"><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
                                 <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
                             </ul>
                             <div class="d-flex align-items-center">

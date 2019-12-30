@@ -69,8 +69,9 @@ Route::get ( '/callback/{service}', 'SocialAuthController@callback' );
 
 Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
 
-Route::post ( '/test', function() {
-    return response()->json(Auth::user());
+Route::get ( '/test', function() {
+
+    return response()->json(App\Like::all());
 });
 
 Route::get('/clear', function() {

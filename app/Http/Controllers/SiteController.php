@@ -195,10 +195,16 @@ class SiteController extends Controller
                             'posts.*',
                             'users.name',
                             'users.avatar',
-                            DB::raw("COUNT(comments.post_id) as comments_count")
-                          ])
+                            DB::raw("COUNT(comments.id) as comments_count"),
+                            DB::raw("COUNT(DISTINCT likes.id) as likes_count"),
+                            DB::raw("COUNT(DISTINCT li.id) as active_like"),
+                        ])
                     ->leftjoin('users', 'users.id', '=', 'posts.author_id')
                     ->leftjoin('comments', 'posts.id', '=', 'comments.post_id')
+                    ->leftjoin('likes', 'posts.id', '=', 'likes.post_id')
+                    ->leftjoin('likes as li', function($join) {
+                        $join->on('posts.id', '=', 'li.post_id')->on('li.liked_by', '=', DB::raw(Auth::check() ? Auth::user()->id : 'NULL'));
+                    })
                     ->where("posts.status", "=" ,"PUBLISHED")
                     ->groupBy('posts.id')
                     ->latest()
@@ -220,7 +226,7 @@ class SiteController extends Controller
             "message" => "someting went wrong. please try again later."
         ];
 
-        // return response()->json($posts);
+        // return response()->json($posts['data']);
         // $request->session()->flash('toast', $toast);
         return view('welcome')->with(['posts'=>$posts]);
 

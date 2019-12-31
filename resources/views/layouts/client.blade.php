@@ -23,7 +23,7 @@
         <div class="site-content">
             @yield('content')
         </div>
-        <section class="site-footer py-2 bg-white text-center shadow-lg text-dark">All rights reserved by <a href="/">{{ setting('site.title')}}</a>.</section>
+        <section class="site-footer py-2 bg-white text-center shadow-lg text-dark">{!! setting('site.footer') !!}</section>
     </div>
     @if(!Auth::check())
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

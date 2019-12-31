@@ -122,9 +122,9 @@
                         @endif
                     </div>
                     <div class="modal-footer">
-                        <div class="d-flex justify-content-between align-items-center bg-light mt-2 w-100">
+                        <div class="d-flex justify-content-between align-items-center bg-light mt-2 w-100 bg-white">
                             <ul class="post-info">
-                                <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}"><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
+                                <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}" @if(Auth::check() && $post->active_like == 0) data-like-post="{{$post->id}}" pointer @else data-toggle="modal" data-target="#loginModal" @endif><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
                                 <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
                             </ul>
                             <div class="d-flex align-items-center">

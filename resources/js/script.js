@@ -117,4 +117,20 @@ $(document).ready(() => {
             }
         })
     })
+
+    $('[data-like-post]').click(function () {
+        let post_id = $(this).data('like-post')
+        $.ajax({
+            url: `posts/${post_id}/like`,
+            method: 'POST',
+            dataType: 'json',
+            data: { _token, post_id },
+            success: ({status,response}) => {
+                if(status == 'success') {
+                    let count = Number($('.post-info .like-' + post_id).eq(0).find('span').text())
+                    $('.post-info .like-' + post_id).addClass('text-primary').removeAttr('pointer').find('span').text(count + 1)
+                }
+            }
+        })
+    })
 })

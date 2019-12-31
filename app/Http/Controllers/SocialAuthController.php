@@ -52,7 +52,7 @@ class SocialAuthController extends Controller
         }
 
 
-        return redirect('/');
+        return redirect('profile');
         
     }
 

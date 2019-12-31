@@ -38,7 +38,7 @@ Route::post('/checkRegister','SiteController@checkRegister');
 
 Route::post('/addPost', 'SiteController@addPost')->middleware('auth');
 
-Route::get('/profile', 'ProfileController@user')->middleware('auth');
+Route::get('/profile', 'ProfileController@user')->middleware('auth')->name('profile');
 
 Route::post('/profile', 'ProfileController@update')->middleware('auth');
 
@@ -47,6 +47,8 @@ Route::post('/posts', 'SiteController@posts');
 Route::post('/posts/{id}', 'SiteController@postDetails');
 
 Route::get('/posts/{id}/comments', 'SiteController@comments');
+
+Route::post('/posts/{id}/like', 'LikeController@store')->middleware('auth');
 
 Route::post('/posts/{id}/comments', 'SiteController@addComments');
 

@@ -203,6 +203,27 @@ $(document).ready(function () {
       }
     });
   });
+  $('[data-like-post]').click(function () {
+    var post_id = $(this).data('like-post');
+    $.ajax({
+      url: "posts/".concat(post_id, "/like"),
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        _token: _token,
+        post_id: post_id
+      },
+      success: function success(_ref3) {
+        var status = _ref3.status,
+            response = _ref3.response;
+
+        if (status == 'success') {
+          var count = Number($('.post-info .like-' + post_id).eq(0).find('span').text());
+          $('.post-info .like-' + post_id).addClass('text-primary').removeAttr('pointer').find('span').text(count + 1);
+        }
+      }
+    });
+  });
 });
 
 /***/ }),

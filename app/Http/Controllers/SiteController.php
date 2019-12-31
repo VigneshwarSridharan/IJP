@@ -129,7 +129,7 @@ class SiteController extends Controller
             "message" => "Hey ".$newUser->name." welcome to ".setting('site.title')
         ];
 
-        return redirect('/')->with('toast',$toast);
+        return redirect('profile')->with('toast',$toast);
     }
 
     public function checkRegister(Request $request) {
@@ -211,7 +211,6 @@ class SiteController extends Controller
                     ->paginate()
                     ->toArray();
                     // ->get();
-                    // SELECT posts.*, COUNT(comments.post_id) as 'commentsCount' FROM posts LEFT JOIN comments ON posts.id = comments.post_id WHERE posts.status = 'PUBLISHED' GROUP BY posts.id ORDER BY posts.created_at DESC
         $comments = [];
         if(Auth::check()) {
             $comments = Comment::select('post_id')->where('comment_by','=',Auth::user()->id)->get()->toArray();

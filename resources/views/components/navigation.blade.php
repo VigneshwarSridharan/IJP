@@ -46,6 +46,9 @@
                         <a class="nav-link dropdown-toggle avatar" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="background-image: url({{ url('storage/'.Auth::user()->avatar) }})" ></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/profile">Dashboard</a>
+                            @if(Auth::user()->role->name == 'reviewer')
+                                <a class="dropdown-item" href="/profile/reviews">Reviews</a>
+                            @endif
                             {{-- <a class="dropdown-item" href="#">Another action</a> --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Logout</a>

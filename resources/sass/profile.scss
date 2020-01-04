@@ -1,0 +1,30 @@
+$primary: #2c7aff;
+
+.user-posts-filter {
+    display: flex;
+    margin-bottom: 1rem;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    .nav-item {
+        flex: 1;
+        border-right: solid 1px #ededed;
+        &:last-child {
+            border: none;
+        }
+        .nav-link {
+            border-radius: 0;
+            border: none;
+            color: inherit;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: solid 4px transparent;
+            transition: all .5s ease;
+            &.active {
+                border-bottom-color:  $primary;
+                color: $primary;
+            }
+        }
+    }
+}

@@ -32,9 +32,9 @@ class PostUpdateListener
         //
         if($event->dataType->name == "posts" && $event->data->status == "PUBLISHED") {
             $post = Post::find($event->data->id);
-            if($post->approved_by == null) {
+            if($post->reviewed_by == null) {
                 $user = User::find($post->author_id);
-                $post->approved_by = Auth::user()->id;
+                $post->reviewed_by = Auth::user()->id;
                 $post->save();
                 $mailData= [
                     'name' => $user->name,

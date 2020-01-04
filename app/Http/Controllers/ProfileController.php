@@ -14,18 +14,81 @@ class ProfileController extends Controller
     public function user(Request $request) {
         
         $posts  = DB::table('posts')
-        ->join('users', 'users.id', '=', 'posts.author_id')
-        ->select('posts.*', 'users.name', 'users.avatar')
-        ->where([
-            ['posts.author_id','=',Auth::user()->id],
-        ])
-        ->latest()
-        ->get();
-        $toast = [
-            "type"=>"info",
-            "message" => "someting went wrong. please try again later."
-        ];
-        return view('profile.user')->with('posts',$posts);
+                ->select([
+                        'posts.*',
+                        'users.name',
+                        'users.avatar',
+                        DB::raw("COUNT(DISTINCT comments.id) as comments_count"),
+                        DB::raw("COUNT(DISTINCT likes.id) as likes_count"),
+                        DB::raw("COUNT(DISTINCT li.id) as active_like"),
+                        DB::raw("COUNT(DISTINCT com.id) as active_comment"),
+                    ])
+                ->leftjoin('users', 'users.id', '=', 'posts.author_id')
+                ->leftjoin('comments', 'posts.id', '=', 'comments.post_id')
+                ->leftjoin('likes', 'posts.id', '=', 'likes.post_id')
+                ->leftjoin('likes as li', function($join) {
+                    $join->on('posts.id', '=', 'li.post_id')->on('li.liked_by', '=', DB::raw(Auth::check() ? Auth::user()->id : 'NULL'));
+                })
+                ->leftjoin('comments as com', function($join) {
+                    $join->on('posts.id', '=', 'com.post_id')->on('com.comment_by', '=', DB::raw(Auth::check() ? Auth::user()->id : 'NULL'));
+                })
+                ->where([
+                    ['posts.author_id','=',Auth::user()->id],
+                ])
+                ->groupBy('posts.id')
+                ->latest()
+                ->get();
+                
+
+        $result= [];
+        $result['published'] = $posts->filter(function($item) {
+            return $item->status == 'PUBLISHED' ? TRUE : FALSE;
+        })->toArray();
+        
+        $result['pending'] = $posts->filter(function($item) {
+            return $item->status == 'PENDING' ? TRUE : FALSE;
+        })->toArray();
+        
+        $result['rejected'] = $posts->filter(function($item) {
+            return $item->status == 'REJECTED' ? TRUE : FALSE;
+        })->toArray();
+
+        $result['draft'] = $posts->filter(function($item) {
+            return $item->status == 'DRAFT' ? TRUE : FALSE;
+        })->toArray();
+
+        return view('profile.user')->with('posts',$result);
+    }
+
+    public function reviews() {
+        $posts  = DB::table('posts')
+                ->select([
+                        'posts.*',
+                    ])
+                ->whereNull('posts.reviewed_by')
+                ->orWhere('posts.reviewed_by','=',Auth::user()->id)
+                ->groupBy('posts.id')
+                ->latest()
+                ->get();
+                
+        $result= [];
+        $result['published'] = $posts->filter(function($item) {
+            return $item->status == 'PUBLISHED' ? TRUE : FALSE;
+        })->toArray();
+        
+        $result['pending'] = $posts->filter(function($item) {
+            return $item->status == 'PENDING' ? TRUE : FALSE;
+        })->toArray();
+        
+        $result['rejected'] = $posts->filter(function($item) {
+            return $item->status == 'REJECTED' ? TRUE : FALSE;
+        })->toArray();
+
+        $result['draft'] = $posts->filter(function($item) {
+            return $item->status == 'DRAFT' ? TRUE : FALSE;
+        })->toArray();
+
+        return view('profile.reviews')->with('posts',$result);
     }
 
     public function update(Request $request) {

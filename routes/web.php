@@ -40,6 +40,8 @@ Route::post('/addPost', 'SiteController@addPost')->middleware('auth');
 
 Route::get('/profile', 'ProfileController@user')->middleware('auth')->name('profile');
 
+Route::get('/profile/reviews', 'ProfileController@reviews')->middleware('auth')->name('reviews');
+
 Route::post('/profile', 'ProfileController@update')->middleware('auth');
 
 Route::post('/posts', 'SiteController@posts');
@@ -72,6 +74,8 @@ Route::get ( '/callback/{service}', 'SocialAuthController@callback' );
 Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
 
 Route::get ( '/test', function() {
+
+    dd(Auth::user()->toArray());
 
     return response()->json(App\Like::all());
 });

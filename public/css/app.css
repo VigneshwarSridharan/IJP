@@ -11104,6 +11104,42 @@ a.text-dark:focus {
   }
 }
 
+.user-posts-filter {
+  display: -webkit-box;
+  display: flex;
+  margin-bottom: 1rem;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.user-posts-filter .nav-item {
+  -webkit-box-flex: 1;
+          flex: 1;
+  border-right: solid 1px #ededed;
+}
+
+.user-posts-filter .nav-item:last-child {
+  border: none;
+}
+
+.user-posts-filter .nav-item .nav-link {
+  border-radius: 0;
+  border: none;
+  color: inherit;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: solid 4px transparent;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.user-posts-filter .nav-item .nav-link.active {
+  border-bottom-color: #2c7aff;
+  color: #2c7aff;
+}
+
 body {
   background-color: #e6e5f4;
 }

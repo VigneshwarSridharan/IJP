@@ -315,10 +315,22 @@ class SiteController extends Controller
         $review->post_id =$id;
 
         $post  = Post::find($id);
+        $user = User::find($post->author_id);
         $post->status = $request->status;
         
         $review->save();
         $post->save();
+        if($post->status == "PUBLISHED") {
+            $mailData= [
+                'name' => $user->name,
+                'title' => $post->title
+            ];
+            Mail::send('mail.postApproved', $mailData, function($message) use ($user) {
+                $message->to($user->email, $user->name)
+                        ->subject('Post Submission');
+                $message->from(setting('site.email'),setting('site.title'));
+            });
+        }
         
         return redirect()->back();
     }

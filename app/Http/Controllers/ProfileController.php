@@ -64,13 +64,17 @@ class ProfileController extends Controller
         $posts  = DB::table('posts')
                 ->select([
                         'posts.*',
+                        'reviews.review'
                     ])
-                ->whereNull('posts.reviewed_by')
-                ->orWhere('posts.reviewed_by','=',Auth::user()->id)
+                ->leftjoin('reviews','reviews.post_id','=','posts.id')
+                // ->whereNull('posts.reviewed_by')
+                ->where('posts.status','=','PENDING')
+                ->orWhere('reviews.reviewed_by','=',Auth::user()->id)
                 ->groupBy('posts.id')
                 ->latest()
                 ->get();
                 
+        // dd($posts);
         $result= [];
         $result['published'] = $posts->filter(function($item) {
             return $item->status == 'PUBLISHED' ? TRUE : FALSE;

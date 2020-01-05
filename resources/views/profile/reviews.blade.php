@@ -63,7 +63,7 @@
                     @foreach ($posts['rejected'] as $key => $post)
                         <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
                             <div class="card-body d-flex">
-                                <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
+                                <div class="site-badge danger mb-3 text-capitalize">{{strtolower($post->status)}}</div>
                                 <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
                                 <div class="content">
                                     <h4 class="title">{{$post->title}}</h4>
@@ -122,7 +122,7 @@
     </div>
 
     @foreach (array_merge($posts['published'],$posts['pending'],$posts['rejected'],$posts['draft']) as $key => $post)
-        <div class="modal fade" id="post-{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="post-{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">
                     <div class="modal-body bg-light rounded">
@@ -131,6 +131,39 @@
                         <p class="excerpt">{{$post->excerpt }}</p>
                         <img src="{{ url('storage/'.$post->image) }}" class="img-fluid rounded mb-3" />
                         {!!$post->body!!}
+
+                        @if($post->status == "PENDING")
+                            <h4>Review comment</h4>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form id="review-comment" method="POST" action="/posts/{{$post->id}}/review">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="post_id" value="{{$post->id}}" />
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="review" rows="5" placeholder="Leave your comment here!!!"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="status1" name="status" class="custom-control-input" value="PUBLISHED" required>
+                                                <label class="custom-control-label" for="status1">Accept</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="status2" name="status" class="custom-control-input" value="REJECTED" required>
+                                                <label class="custom-control-label" for="status2">Reject</label>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        @endif
+
+                        @if($post->review)
+                            <h4>Reason</h4>
+                            <p>{{$post->review}}</p>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         
@@ -144,4 +177,5 @@
 
 @push('scripts')
     <script src="{{url('js/site/profile.js')}}"></script>
+    <script src="{{url('js/site/review.js')}}"></script>
 @endpush

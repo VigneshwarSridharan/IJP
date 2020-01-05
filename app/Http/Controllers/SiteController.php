@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\User;
+use App\Review;
 use App\Comment;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -306,6 +307,22 @@ class SiteController extends Controller
         }
         return response()->json($result);
     }
+
+    public function review(Request $request,$id) {
+        $review = new Review;
+        $review->review = $request->review;
+        $review->reviewed_by = Auth::user()->id;
+        $review->post_id =$id;
+
+        $post  = Post::find($id);
+        $post->status = $request->status;
+        
+        $review->save();
+        $post->save();
+        
+        return redirect()->back();
+    }
+
     public function postDetails($id) {
         $result = [
             "status" => "success",

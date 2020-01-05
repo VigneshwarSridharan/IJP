@@ -54,6 +54,8 @@ Route::post('/posts/{id}/like', 'LikeController@store')->middleware('auth');
 
 Route::post('/posts/{id}/comments', 'SiteController@addComments');
 
+Route::post('/posts/{id}/review', 'SiteController@review')->middleware('auth');
+
 Route::get('/category/{category}',"SiteController@category");
 
 Route::get('/logout', function() {

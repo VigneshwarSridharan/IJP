@@ -85,7 +85,7 @@
                     @foreach ($posts['rejected'] as $key => $post)
                         <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
                             <div class="card-body d-flex">
-                                <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
+                                <div class="site-badge danger mb-3 text-capitalize">{{strtolower($post->status)}}</div>
                                 <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
                                 <div class="content">
                                     <h4 class="title">{{$post->title}}</h4>
@@ -184,7 +184,7 @@
     </div>
 
     @foreach (array_merge($posts['published'],$posts['pending'],$posts['rejected'],$posts['draft']) as $key => $post)
-        <div class="modal fade" id="post-{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="post-{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">
                     <div class="modal-body bg-light rounded">
@@ -193,6 +193,28 @@
                         <p class="excerpt">{{$post->excerpt }}</p>
                         <img src="{{ url('storage/'.$post->image) }}" class="img-fluid rounded mb-3" />
                         {!!$post->body!!}
+                        <h4>Comments</h4>
+                        <div id="comments-{{$post->id}}">
+                            <h1 class="text-primary text-center">
+                                <i class="fas fa-spinner fa-pulse"></i>
+                            </h1>
+                        </div>
+                        @if(Auth::check()) 
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="add-comment">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="post_id" value="{{$post->id}}" />
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="comment" rows="5" placeholder="Leave your comment here!!!" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <div class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Add Comment</div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <div class="d-flex justify-content-between align-items-center bg-light mt-2 w-100">

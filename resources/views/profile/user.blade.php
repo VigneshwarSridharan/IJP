@@ -147,12 +147,29 @@
             </div>
             <div class="col-sm-4">
                 <div class="card">
+                    <div class="card-img-top bg-primary pt-5 text-white">
+                        <div class="profile-pic mb-3 text-center">
+                            <img class="img-fluid rounded-circle img-thumbnail mb-2" width="150" src="{{ url('storage/'.Auth::user()->avatar) }}" alt="{{Auth::user()->name}}" />
+                            <h5 class="font-weight-normal text-white mb-3" style="opacity:.9">{{Auth::user()->name}}</h5>
+                            <div class="d-flex align-items-center justify-content-around mb-3" style="opacity:.9">
+                                <div>
+                                    <h5 class="text-white m-0">{{$profile->published > 10 ? $profile->published : '0'.$profile->published}}</h5>
+                                    <span>Published</span>
+                                </div>
+                                <div>
+                                    <h5 class="text-white m-0">{{$profile->rejected > 10 ? $profile->rejected : '0'.$profile->rejected}}</h5>
+                                    <span>Rejected</span>
+                                </div>
+                                <div>
+                                    <h5 class="text-white m-0">{{$profile->pending > 10 ? $profile->pending : '0'.$profile->pending}}</h5>
+                                    <span>Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <form class="profile-update" action="/profile" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="profile-pic mb-3 text-center">
-                                <img class="img-fluid rounded-circle" width="150" src="{{ url('storage/'.Auth::user()->avatar) }}" alt="{{Auth::user()->name}}" />
-                            </div>
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" name="name" class="form-control" value="{{Auth::user()->name}}" />

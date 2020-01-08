@@ -12,6 +12,16 @@ class ProfileController extends Controller
 {
     //
     public function user(Request $request) {
+
+        $profile =  DB::table('posts')
+                        ->select([
+                            DB::raw('SUM(status = "PUBLISHED") as published'),
+                            DB::raw('SUM(status = "DRAFT") as draft'),
+                            DB::raw('SUM(status = "PENDING") as pending'),
+                            DB::raw('SUM(status = "REJECTED") as rejected'),
+                        ])
+                        ->where('author_id','=',Auth::user()->id)
+                        ->first();
         
         $posts  = DB::table('posts')
                 ->select([
@@ -57,7 +67,10 @@ class ProfileController extends Controller
             return $item->status == 'DRAFT' ? TRUE : FALSE;
         })->toArray();
 
-        return view('profile.user')->with('posts',$result);
+        return view('profile.user')->with([
+            'posts'=>$result,
+            'profile' => $profile
+        ]);
     }
 
     public function reviews() {

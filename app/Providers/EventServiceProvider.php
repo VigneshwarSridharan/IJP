@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use \TCG\Voyager\Events\BreadDataUpdated;
 use App\Listeners\PostUpdateListener;
+use App\Listeners\UserUpdateListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         BreadDataUpdated::class => [
             PostUpdateListener::class,
+            UserUpdateListener::class,
         ]
     ];
 

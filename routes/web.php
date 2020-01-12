@@ -58,6 +58,8 @@ Route::post('/posts/{id}/review', 'SiteController@review')->middleware('auth');
 
 Route::get('/category/{category}',"SiteController@category");
 
+Route::get('/verify-reviewer/{id}', 'SiteController@verifyReviewer');
+
 Route::get('/logout', function() {
     Auth::logout();
     return redirect('/');

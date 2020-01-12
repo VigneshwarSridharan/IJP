@@ -416,4 +416,17 @@ class SiteController extends Controller
 
         return redirect()->back()->with('toast',$toast);
     }
+
+    public function verifyReviewer($id) {
+        $user = User::where('remember_token','=',$id)->first(); //reviewer_verify
+        $user->reviewer_verify = 'VERIFIED';
+        $user->save();
+
+        $toast = [
+            "type"=>"success",
+            "message" => "Verified successfully"
+        ];
+
+        return redirect('/')->with('toast',$toast);
+    }
 }

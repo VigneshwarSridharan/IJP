@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid mt-3">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-lg-8">
                 @if(count($posts['data']) == 0)
                     <div class="card mb-3 post-item">
                         <div class="card-body text-center">
@@ -13,7 +13,7 @@
                 @endif
                 @foreach ($posts['data'] as $key => $post)
                     <div class="card mb-3 post-item pointer" data-post="{{$post->id}}" >
-                        <div class="card-body d-flex">
+                        <div class="card-body d-sm-flex">
                             <div class="site-badge blue mb-3">Issue #{{$post->id+1}}</div>
                             <div 
                                 class="featured-image" 
@@ -55,7 +55,7 @@
                     </div>
                 @endif
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 @if(!Auth::check())
                     <div class="card mb-3">
                         <div class="card-body">

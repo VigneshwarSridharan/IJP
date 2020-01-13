@@ -11286,12 +11286,18 @@ body {
 }
 
 .post-item .featured-image {
-  width: 250px;
+  min-height: 250px;
   border-radius: 8px;
   background-size: cover;
   background-position: center center;
   flex-shrink: 0;
   margin-right: 0.5rem;
+}
+
+@media screen and (min-width: 576px) {
+  .post-item .featured-image {
+    width: 250px;
+  }
 }
 
 .post-item .content {
@@ -11303,7 +11309,7 @@ body {
 
 .post-item .content .excerpt {
   text-align: justify;
-  height: 100px;
+  min-height: 100px;
 }
 
 .post-item .content .post-info {

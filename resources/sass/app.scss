@@ -139,12 +139,15 @@ body {
         left: 0;
     }
     .featured-image {
-        width: 250px;
+        min-height: 250px;
         border-radius: 8px;
         background-size: cover;
         background-position: center center;
         flex-shrink: 0;
         margin-right: .5rem;
+        @media screen and (min-width: 576px){
+            width: 250px;
+        }
     }
     .content {
         width: 100%;
@@ -156,7 +159,7 @@ body {
         }
         .excerpt {
             text-align: justify;
-            height: 100px;
+            min-height: 100px;
         }
         .post-info {
             padding: 0;

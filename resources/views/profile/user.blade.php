@@ -4,146 +4,51 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-8">
-                <ul class="nav nav-tabs user-posts-filter" id="post-filter" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="published-tab" data-toggle="tab" href="#published" role="tab">Published</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab">Under Review</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="rejected-post-tab" data-toggle="tab" href="#rejected-post" role="tab">Rejected</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="draft-post-tab" data-toggle="tab" href="#draft-post" role="tab">Draft</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="post-filter-content">
-                    <div class="tab-pane fade show active" id="published" role="tabpanel" aria-labelledby="published-tab">
-                        @foreach ($posts['published'] as $key => $post)
-                            <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
-                                <div class="card-body d-sm-flex">
-                                    <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
-                                    <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                                    <div class="content">
-                                        <h4 class="title">{{$post->title}}</h4>
-                                        <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <ul class="post-info">
-                                                <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}"><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
-                                                <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
-                                            </ul>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>
-                                                <div>{{$post->name}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        @if(count($posts['published']) == 0)
-                            <div class="card mb-3 post-item">
-                                <div class="card-body text-center">
-                                    <h3>No results</h3>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
-                        @foreach ($posts['pending'] as $key => $post)
-                            <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
-                                <div class="card-body d-sm-flex">
-                                    <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
-                                    <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                                    <div class="content">
-                                        <h4 class="title">{{$post->title}}</h4>
-                                        <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <ul class="post-info">
-                                                <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}"><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
-                                                <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
-                                            </ul>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>
-                                                <div>{{$post->name}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        @if(count($posts['pending']) == 0)
-                            <div class="card mb-3 post-item">
-                                <div class="card-body text-center">
-                                    <h3>No results</h3>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="tab-pane fade" id="rejected-post" role="tabpanel" aria-labelledby="rejected-post-tab">
-                        @foreach ($posts['rejected'] as $key => $post)
-                            <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
-                                <div class="card-body d-sm-flex">
-                                    <div class="site-badge danger mb-3 text-capitalize">{{strtolower($post->status)}}</div>
-                                    <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                                    <div class="content">
-                                        <h4 class="title">{{$post->title}}</h4>
-                                        <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <ul class="post-info">
-                                                <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}"><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
-                                                <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
-                                            </ul>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>
-                                                <div>{{$post->name}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        @if(count($posts['rejected']) == 0)
-                            <div class="card mb-3 post-item">
-                                <div class="card-body text-center">
-                                    <h3>No results</h3>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="tab-pane fade" id="draft-post" role="tabpanel" aria-labelledby="draft-post-tab">
-                        @foreach ($posts['draft'] as $key => $post)
-                            <div class="card mb-3 post-item pointer" data-edit="{{$post->id}}">
-                                <div class="card-body d-sm-flex">
-                                    <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
-                                    <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                                    <div class="content">
-                                        <h4 class="title">{{$post->title}}</h4>
-                                        <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <ul class="post-info">
-                                                <li class="like-{{$post->id}} {{$post->active_like == 1 ? 'text-primary': '' }}"><i class="fas fa-thumbs-up"></i> <span>{{$post->likes_count}}</span></li>
-                                                <li class="comment-{{$post->id}} {{$post->active_comment ? 'text-primary' : ''}}"><i class="fas fa-comment"></i> <span>{{$post->comments_count}}</span></li>
-                                            </ul>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar" style="background-image: url({{url('storage/'.$post->avatar)}});"></div>
-                                                <div>{{$post->name}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        @if(count($posts['published']) == 0)
-                            <div class="card mb-3 post-item">
-                                <div class="card-body text-center">
-                                    <h3>No results</h3>
-                                </div>
-                            </div>
-                        @endif
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($posts['data'] as $key => $post)
+                                    <tr>
+                                        <th scope="row">{{$post->id}}</th>
+                                        <td>{{$post->title}}</td>
+                                        <td class="text-capitalize">
+                                            <span class="badge @if($post->status == 'PUBLISHED') badge-primary @elseif($post->status == 'PENDING') badge-warning @elseif($post->status == 'REJECTED') badge-danger @elseif($post->status == 'DRAFT') badge-secondary @endif ">
+                                                {{strtolower($post->status)}}
+                                            </span>
+                                        </td>
+                                        <td><a href="javascript:void(0)" @if($post->status == "DRAFT") data-edit="{{$post->id}}" @else data-post="{{$post->id}}" @endif>{{$post->status == "DRAFT" ? 'Edit' :'View'}}</a></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                @if($posts['prev_page_url'] || $posts['next_page_url'])
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @if($posts['prev_page_url'])
+                                <a class="btn btn-primary" href="{{$posts['prev_page_url']}}">Previous</a>
+                            @endif
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <p>{{$posts['current_page']}} / {{$posts['last_page']}}</p>
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            @if($posts['next_page_url'])
+                                <a class="btn btn-primary" href="{{$posts['next_page_url']}}">Next</a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-lg-4">
                 <div class="card">
@@ -200,7 +105,7 @@
         </div>
     </div>
 
-    @foreach (array_merge($posts['published'],$posts['pending'],$posts['rejected'],$posts['draft']) as $key => $post)
+    @foreach ($posts['data'] as $key => $post)
         <div class="modal fade" id="post-{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">

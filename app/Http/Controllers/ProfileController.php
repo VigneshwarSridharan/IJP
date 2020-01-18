@@ -47,25 +47,28 @@ class ProfileController extends Controller
                 ])
                 ->groupBy('posts.id')
                 ->latest()
-                ->get();
+                ->paginate()
+                ->toArray();
+                // ->get();
                 
+                // dd($posts);  
 
-        $result= [];
-        $result['published'] = $posts->filter(function($item) {
-            return $item->status == 'PUBLISHED' ? TRUE : FALSE;
-        })->toArray();
+        $result= $posts;
+        // $result['published'] = $posts->filter(function($item) {
+        //     return $item->status == 'PUBLISHED' ? TRUE : FALSE;
+        // })->toArray();
         
-        $result['pending'] = $posts->filter(function($item) {
-            return $item->status == 'PENDING' ? TRUE : FALSE;
-        })->toArray();
+        // $result['pending'] = $posts->filter(function($item) {
+        //     return $item->status == 'PENDING' ? TRUE : FALSE;
+        // })->toArray();
         
-        $result['rejected'] = $posts->filter(function($item) {
-            return $item->status == 'REJECTED' ? TRUE : FALSE;
-        })->toArray();
+        // $result['rejected'] = $posts->filter(function($item) {
+        //     return $item->status == 'REJECTED' ? TRUE : FALSE;
+        // })->toArray();
 
-        $result['draft'] = $posts->filter(function($item) {
-            return $item->status == 'DRAFT' ? TRUE : FALSE;
-        })->toArray();
+        // $result['draft'] = $posts->filter(function($item) {
+        //     return $item->status == 'DRAFT' ? TRUE : FALSE;
+        // })->toArray();
 
         return view('profile.user')->with([
             'posts'=>$result,

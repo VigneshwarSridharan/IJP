@@ -9,16 +9,16 @@
                         <a class="nav-link {{$status == '' ? 'active' : ''}}" href="/profile">All ( {{$profile->published+$profile->pending+$profile->rejected+$profile->draft}} )</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{$status == 'published' ? 'active' : ''}}" href="/profile/status/published">Published ( {{$profile->published}} )</a>
+                        <a class="nav-link {{$status == 'published' ? 'active' : ''}}" href="/profile/status/published">Published submission ( {{$profile->published}} )</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{$status == 'review' ? 'active' : ''}}" href="/profile/status/review">Under Review ( {{$profile->pending}} )</a>
+                        <a class="nav-link {{$status == 'review' ? 'active' : ''}}" href="/profile/status/review">Submission under Review ( {{$profile->pending}} )</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{$status == 'rejected' ? 'active' : ''}}" href="/profile/status/rejected">Rejected ( {{$profile->rejected}} )</a>
+                        <a class="nav-link {{$status == 'rejected' ? 'active' : ''}}" href="/profile/status/rejected">Rejected submission ( {{$profile->rejected}} )</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{$status == 'draft' ? 'active' : ''}}" href="/profile/status/draft">Draft ( {{$profile->draft}} )</a>
+                        <a class="nav-link {{$status == 'draft' ? 'active' : ''}}" href="/profile/status/draft">Incomplete submission ( {{$profile->draft}} )</a>
                     </li>
                 </ul>
                 <div class="card mb-3">

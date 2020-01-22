@@ -40,6 +40,8 @@ Route::post('/addPost', 'SiteController@addPost')->middleware('auth');
 
 Route::get('/profile', 'ProfileController@user')->middleware('auth')->name('profile');
 
+Route::get('/profile/status/{status}', 'ProfileController@user')->middleware('auth')->name('profile');
+
 Route::get('/profile/reviews', 'ProfileController@reviews')->middleware('auth')->name('reviews');
 
 Route::post('/profile', 'ProfileController@update')->middleware('auth');

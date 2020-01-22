@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
     //
-    public function user(Request $request) {
+    public function user(Request $request, $status="") {
 
         $profile =  DB::table('posts')
                         ->select([
@@ -22,6 +22,12 @@ class ProfileController extends Controller
                         ])
                         ->where('author_id','=',Auth::user()->id)
                         ->first();
+        $where = [
+            ['posts.author_id','=',Auth::user()->id]
+        ];
+        if($status) {
+            $where[] = ['posts.status','=',strtoupper($status)];
+        }
         
         $posts  = DB::table('posts')
                 ->select([
@@ -42,9 +48,7 @@ class ProfileController extends Controller
                 ->leftjoin('comments as com', function($join) {
                     $join->on('posts.id', '=', 'com.post_id')->on('com.comment_by', '=', DB::raw(Auth::check() ? Auth::user()->id : 'NULL'));
                 })
-                ->where([
-                    ['posts.author_id','=',Auth::user()->id],
-                ])
+                ->where($where)
                 ->groupBy('posts.id')
                 ->latest()
                 ->paginate()
@@ -54,25 +58,11 @@ class ProfileController extends Controller
                 // dd($posts);  
 
         $result= $posts;
-        // $result['published'] = $posts->filter(function($item) {
-        //     return $item->status == 'PUBLISHED' ? TRUE : FALSE;
-        // })->toArray();
-        
-        // $result['pending'] = $posts->filter(function($item) {
-        //     return $item->status == 'PENDING' ? TRUE : FALSE;
-        // })->toArray();
-        
-        // $result['rejected'] = $posts->filter(function($item) {
-        //     return $item->status == 'REJECTED' ? TRUE : FALSE;
-        // })->toArray();
-
-        // $result['draft'] = $posts->filter(function($item) {
-        //     return $item->status == 'DRAFT' ? TRUE : FALSE;
-        // })->toArray();
 
         return view('profile.user')->with([
             'posts'=>$result,
-            'profile' => $profile
+            'profile' => $profile,
+            'status' => $status
         ]);
     }
 

@@ -4,6 +4,23 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-8">
+                <ul class="nav nav-tabs user-posts-filter" id="post-filter" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link {{$status == '' ? 'active' : ''}}" href="/profile">All ( {{$profile->published+$profile->pending+$profile->rejected+$profile->draft}} )</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{$status == 'published' ? 'active' : ''}}" href="/profile/status/published">Published ( {{$profile->published}} )</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{$status == 'review' ? 'active' : ''}}" href="/profile/status/review">Under Review ( {{$profile->pending}} )</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{$status == 'rejected' ? 'active' : ''}}" href="/profile/status/rejected">Rejected ( {{$profile->rejected}} )</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{$status == 'draft' ? 'active' : ''}}" href="/profile/status/draft">Draft ( {{$profile->draft}} )</a>
+                    </li>
+                </ul>
                 <div class="card mb-3">
                     <div class="card-body">
                         <table class="table">
@@ -28,6 +45,11 @@
                                         <td><a href="javascript:void(0)" @if($post->status == "DRAFT") data-edit="{{$post->id}}" @else data-post="{{$post->id}}" @endif>{{$post->status == "DRAFT" ? 'Edit' :'View'}}</a></td>
                                     </tr>
                                 @endforeach
+                                @if(count($posts['data']) == 0)
+                                    <tr>
+                                        <td colspan="4" class="text-center">No results found</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

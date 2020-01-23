@@ -40,9 +40,11 @@ Route::post('/addPost', 'SiteController@addPost')->middleware('auth');
 
 Route::get('/profile', 'ProfileController@user')->middleware('auth')->name('profile');
 
-Route::get('/profile/status/{status}', 'ProfileController@user')->middleware('auth')->name('profile');
+Route::get('/profile/status/{status}', 'ProfileController@user')->middleware('auth');
 
 Route::get('/profile/reviews', 'ProfileController@reviews')->middleware('auth')->name('reviews');
+
+Route::get('/profile/reviews/status/{status}', 'ProfileController@reviews')->middleware('auth');
 
 Route::post('/profile', 'ProfileController@update')->middleware('auth');
 

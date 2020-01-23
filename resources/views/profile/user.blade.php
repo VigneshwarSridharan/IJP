@@ -11,7 +11,7 @@
                             All ( {{$profile->published+$profile->pending+$profile->rejected+$profile->draft}} )
                         @elseif($status == 'published')
                             Published submission ( {{$profile->published}} )
-                        @elseif($status == 'review')
+                        @elseif($status == 'pending')
                             Submission under Review ( {{$profile->pending}} )
                         @elseif($status == 'rejected')
                             Rejected submission ( {{$profile->rejected}} )
@@ -22,7 +22,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item {{$status == '' ? 'active' : ''}}" href="/profile">All ( {{$profile->published+$profile->pending+$profile->rejected+$profile->draft}} )</a>
                         <a class="dropdown-item {{$status == 'published' ? 'active' : ''}}" href="/profile/status/published">Published submission ( {{$profile->published}} )</a>
-                        <a class="dropdown-item {{$status == 'review' ? 'active' : ''}}" href="/profile/status/review">Submission under Review ( {{$profile->pending}} )</a>
+                        <a class="dropdown-item {{$status == 'review' ? 'active' : ''}}" href="/profile/status/pending">Submission under Review ( {{$profile->pending}} )</a>
                         <a class="dropdown-item {{$status == 'rejected' ? 'active' : ''}}" href="/profile/status/rejected">Rejected submission ( {{$profile->rejected}} )</a>
                         <a class="dropdown-item {{$status == 'draft' ? 'active' : ''}}" href="/profile/status/draft">Incomplete submission ( {{$profile->draft}} )</a>
                     </div>

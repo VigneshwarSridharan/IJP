@@ -1,96 +1,98 @@
 @extends('layouts.client')
 
+@php
+    function getCount($arr,$type) {
+        return count(
+            array_filter($arr, function($item) use($type) {
+                    return $item->status == $type;
+                })
+        );
+    }
+@endphp
+
 @section('content')
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-sm-8">
-            <ul class="nav nav-tabs user-posts-filter" id="post-filter" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab">Review List</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="published-tab" data-toggle="tab" href="#published" role="tab">Approved</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="rejected-post-tab" data-toggle="tab" href="#rejected-post" role="tab">Rejected</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="post-filter-content">
-                <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
-                    @foreach ($posts['pending'] as $key => $post)
-                        <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
-                            <div class="card-body d-flex">
-                                <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
-                                <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                                <div class="content">
-                                    <h4 class="title">{{$post->title}}</h4>
-                                    <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    @if(count($posts['pending']) == 0)
-                        <div class="card mb-3 post-item">
-                            <div class="card-body text-center">
-                                <h3>No results</h3>
-                            </div>
-                        </div>
-                    @endif
+                <div class="btn-group mb-3">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-filter"></i> 
+                        @if($status == '')
+                            All ( {{$info->published+$info->pending+$info->rejected}} )
+                        @elseif($status == 'published')
+                            Approved ( {{$info->published}} )
+                        @elseif($status == 'pending')
+                            Under Review ( {{$info->pending}} )
+                        @elseif($status == 'rejected')
+                            Rejected ( {{$info->rejected}} )
+                        @endif
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item {{$status == '' ? 'active' : ''}}" href="/profile/reviews">All ( {{$info->published+$info->pending+$info->rejected}} )</a>
+                        <a class="dropdown-item {{$status == 'published' ? 'active' : ''}}" href="/profile/reviews/status/published">Approved ( {{$info->published}} )</a>
+                        <a class="dropdown-item {{$status == 'pending' ? 'active' : ''}}" href="/profile/reviews/status/pending">Under Review ( {{$info->pending}} )</a>
+                        <a class="dropdown-item {{$status == 'rejected' ? 'active' : ''}}" href="/profile/reviews/status/rejected">Rejected ( {{$info->rejected}} )</a>
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="published" role="tabpanel" aria-labelledby="published-tab">
-                    @foreach ($posts['published'] as $key => $post)
-                        <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
-                            <div class="card-body d-flex">
-                                <div class="site-badge {{$post->status == 'PUBLISHED' ? 'blue':'orange'}} mb-3 text-capitalize">{{strtolower($post->status)}}</div>
-                                <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                                <div class="content">
-                                    <h4 class="title">{{$post->title}}</h4>
-                                    <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    @if(count($posts['published']) == 0)
-                        <div class="card mb-3 post-item">
-                            <div class="card-body text-center">
-                                <h3>No results</h3>
-                            </div>
-                        </div>
-                    @endif
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($posts['data'] as $key => $post)
+                                    <tr>
+                                        <th scope="row">{{$post->id}}</th>
+                                        <td>{{$post->title}}</td>
+                                        <td class="text-capitalize">
+                                            <span class="badge @if($post->status == 'PUBLISHED') badge-primary @elseif($post->status == 'PENDING') badge-warning @elseif($post->status == 'REJECTED') badge-danger @elseif($post->status == 'DRAFT') badge-secondary @endif ">
+                                                @if($post->status == 'PUBLISHED') Approved @elseif($post->status == 'PENDING') Under Review @elseif($post->status == 'REJECTED') Rejected @endif
+                                            </span>
+                                        </td>
+                                        <td><a href="javascript:void(0)" @if($post->status == "DRAFT") data-edit="{{$post->id}}" @else data-post="{{$post->id}}" @endif>{{$post->status == "DRAFT" ? 'Edit' :'View'}}</a></td>
+                                    </tr>
+                                @endforeach
+                                @if(count($posts['data']) == 0)
+                                    <tr>
+                                        <td colspan="4" class="text-center">No results found</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="rejected-post" role="tabpanel" aria-labelledby="rejected-post-tab">
-                    @foreach ($posts['rejected'] as $key => $post)
-                        <div class="card mb-3 post-item pointer" data-post="{{$post->id}}">
-                            <div class="card-body d-flex">
-                                <div class="site-badge danger mb-3 text-capitalize">{{strtolower($post->status)}}</div>
-                                <div class="featured-image" style="background-image: url({{url('storage/'.$post->image)}});"></div>
-                                <div class="content">
-                                    <h4 class="title">{{$post->title}}</h4>
-                                    <p class="excerpt">{{Str::words($post->excerpt,40,'...') }}</p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    @if(count($posts['rejected']) == 0)
-                        <div class="card mb-3 post-item">
-                            <div class="card-body text-center">
-                                <h3>No results</h3>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
             </div>
             <div class="col-sm-4">
                 <div class="card">
+                    <div class="card-img-top bg-primary pt-5 text-white">
+                        <div class="profile-pic mb-3 text-center">
+                            <img class="img-fluid rounded-circle img-thumbnail mb-2" width="150" src="{{ url('storage/'.Auth::user()->avatar) }}" alt="{{Auth::user()->name}}" />
+                            <h5 class="font-weight-normal text-white mb-3" style="opacity:.9">{{Auth::user()->name}}</h5>
+                            <div class="d-flex align-items-center justify-content-around mb-3" style="opacity:.9">
+                                <div>
+                                    <h5 class="text-white m-0">{{$profile->published > 10 ? $profile->published : '0'.$profile->published}}</h5>
+                                    <span>Published</span>
+                                </div>
+                                <div>
+                                    <h5 class="text-white m-0">{{$profile->rejected > 10 ? $profile->rejected : '0'.$profile->rejected}}</h5>
+                                    <span>Rejected</span>
+                                </div>
+                                <div>
+                                    <h5 class="text-white m-0">{{$profile->pending > 10 ? $profile->pending : '0'.$profile->pending}}</h5>
+                                    <span>Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <form class="profile-update" action="/profile" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="profile-pic mb-3 text-center">
-                                <img class="img-fluid rounded-circle" width="150" src="{{ url('storage/'.Auth::user()->avatar) }}" alt="{{Auth::user()->name}}" />
-                            </div>
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" name="name" class="form-control" value="{{Auth::user()->name}}" />
@@ -121,7 +123,7 @@
         </div>
     </div>
 
-    @foreach (array_merge($posts['published'],$posts['pending'],$posts['rejected'],$posts['draft']) as $key => $post)
+    @foreach ($posts['data'] as $key => $post)
         <div class="modal fade" id="post-{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg rounded post-details" role="document">
                 <div class="modal-content border-0">

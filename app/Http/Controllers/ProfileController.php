@@ -28,7 +28,6 @@ class ProfileController extends Controller
         if($status) {
             $where[] = ['posts.status','=',strtoupper($status)];
         }
-        
         $posts  = DB::table('posts')
                 ->select([
                         'posts.*',
@@ -66,7 +65,45 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function reviews() {
+    public function reviews($status="") {
+
+        $where = [
+            ['posts.status','=','PENDING']
+        ];
+        $orWhere = [
+            ['reviews.reviewed_by','=',Auth::user()->id],
+            
+        ];
+        
+        $profile =  DB::table('posts')
+                        ->select([
+                            DB::raw('SUM(status = "PUBLISHED") as published'),
+                            DB::raw('SUM(status = "DRAFT") as draft'),
+                            DB::raw('SUM(status = "PENDING") as pending'),
+                            DB::raw('SUM(status = "REJECTED") as rejected'),
+                        ])
+                        ->where('author_id','=',Auth::user()->id)
+                        ->first();
+
+        $info =  DB::table('posts')
+                        ->select([
+                            DB::raw('SUM(posts.status = "PUBLISHED") as published'),
+                            DB::raw('SUM(posts.status = "PENDING") as pending'),
+                            DB::raw('SUM(posts.status = "REJECTED") as rejected'),
+                        ])
+                        ->leftjoin('reviews','reviews.post_id','=','posts.id')
+                        ->where($where)
+                        ->orWhere($orWhere)
+                        ->first();
+                        
+        // dd($info);
+        if($status) {
+            $orWhere[] = ['posts.status','=',strtoupper($status)];
+            if($status != 'pending') {
+                $where = [];
+            }
+        }
+
         $posts  = DB::table('posts')
                 ->select([
                         'posts.*',
@@ -74,31 +111,37 @@ class ProfileController extends Controller
                     ])
                 ->leftjoin('reviews','reviews.post_id','=','posts.id')
                 // ->whereNull('posts.reviewed_by')
-                ->where('posts.status','=','PENDING')
-                ->orWhere('reviews.reviewed_by','=',Auth::user()->id)
+                ->where($where)
+                ->orWhere($orWhere)
                 ->groupBy('posts.id')
                 ->latest()
-                ->get();
+                ->paginate()
+                ->toArray();
                 
         // dd($posts);
-        $result= [];
-        $result['published'] = $posts->filter(function($item) {
-            return $item->status == 'PUBLISHED' ? TRUE : FALSE;
-        })->toArray();
+        // $result= [];
+        // $result['published'] = $posts->filter(function($item) {
+        //     return $item->status == 'PUBLISHED' ? TRUE : FALSE;
+        // })->toArray();
         
-        $result['pending'] = $posts->filter(function($item) {
-            return $item->status == 'PENDING' ? TRUE : FALSE;
-        })->toArray();
+        // $result['pending'] = $posts->filter(function($item) {
+        //     return $item->status == 'PENDING' ? TRUE : FALSE;
+        // })->toArray();
         
-        $result['rejected'] = $posts->filter(function($item) {
-            return $item->status == 'REJECTED' ? TRUE : FALSE;
-        })->toArray();
+        // $result['rejected'] = $posts->filter(function($item) {
+        //     return $item->status == 'REJECTED' ? TRUE : FALSE;
+        // })->toArray();
 
-        $result['draft'] = $posts->filter(function($item) {
-            return $item->status == 'DRAFT' ? TRUE : FALSE;
-        })->toArray();
+        // $result['draft'] = $posts->filter(function($item) {
+        //     return $item->status == 'DRAFT' ? TRUE : FALSE;
+        // })->toArray();
 
-        return view('profile.reviews')->with('posts',$result);
+        return view('profile.reviews')->with([
+            'posts' => $posts,
+            'status' => $status,
+            'profile' => $profile,
+            'info' => $info
+            ]);
     }
 
     public function update(Request $request) {

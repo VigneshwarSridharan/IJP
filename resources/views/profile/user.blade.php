@@ -4,23 +4,30 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-8">
-                <ul class="nav nav-tabs user-posts-filter" id="post-filter" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link {{$status == '' ? 'active' : ''}}" href="/profile">All ( {{$profile->published+$profile->pending+$profile->rejected+$profile->draft}} )</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{$status == 'published' ? 'active' : ''}}" href="/profile/status/published">Published submission ( {{$profile->published}} )</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{$status == 'review' ? 'active' : ''}}" href="/profile/status/review">Submission under Review ( {{$profile->pending}} )</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{$status == 'rejected' ? 'active' : ''}}" href="/profile/status/rejected">Rejected submission ( {{$profile->rejected}} )</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{$status == 'draft' ? 'active' : ''}}" href="/profile/status/draft">Incomplete submission ( {{$profile->draft}} )</a>
-                    </li>
-                </ul>
+                <div class="btn-group mb-3">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-filter"></i> 
+                        @if($status == '')
+                            All ( {{$profile->published+$profile->pending+$profile->rejected+$profile->draft}} )
+                        @elseif($status == 'published')
+                            Published submission ( {{$profile->published}} )
+                        @elseif($status == 'review')
+                            Submission under Review ( {{$profile->pending}} )
+                        @elseif($status == 'rejected')
+                            Rejected submission ( {{$profile->rejected}} )
+                        @elseif($status == 'draft')
+                            Incomplete submission ( {{$profile->draft}} )
+                        @endif
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item {{$status == '' ? 'active' : ''}}" href="/profile">All ( {{$profile->published+$profile->pending+$profile->rejected+$profile->draft}} )</a>
+                        <a class="dropdown-item {{$status == 'published' ? 'active' : ''}}" href="/profile/status/published">Published submission ( {{$profile->published}} )</a>
+                        <a class="dropdown-item {{$status == 'review' ? 'active' : ''}}" href="/profile/status/review">Submission under Review ( {{$profile->pending}} )</a>
+                        <a class="dropdown-item {{$status == 'rejected' ? 'active' : ''}}" href="/profile/status/rejected">Rejected submission ( {{$profile->rejected}} )</a>
+                        <a class="dropdown-item {{$status == 'draft' ? 'active' : ''}}" href="/profile/status/draft">Incomplete submission ( {{$profile->draft}} )</a>
+                    </div>
+                </div>
+                
                 <div class="card mb-3">
                     <div class="card-body">
                         <table class="table">

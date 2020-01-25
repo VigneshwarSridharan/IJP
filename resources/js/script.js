@@ -52,7 +52,7 @@ $(document).ready(() => {
         console.log(id);
         $('#post-' + id).modal('show');
         $.ajax({
-            url: `posts/${id}/comments`,
+            url: `/posts/${id}/comments`,
             dataType: 'json',
             success: ({ status, response }) => {
                 if (status == 'success') {
@@ -63,7 +63,10 @@ $(document).ready(() => {
                             return `
                                     <div class="list-group-item d-flex align-items-center justify-content-between">
                                         <div>${item.comment}</div>
-                                        <img src="${storage(item.avatar)}" class="rounded-circle" height="40" />
+                                        <div class="d-flex align-items-center">
+                                            <small class="mr-2">${moment(item.created_at).format('DD MMM YYYY')}</small>
+                                            <img src="${storage(item.avatar)}" class="rounded-circle" height="40" />
+                                        </div>
                                     </div>
                                     `
                         }).join('')
@@ -95,7 +98,7 @@ $(document).ready(() => {
                 let data = $form.serializeArray();
                 let id = $form.find('[name="post_id"]').val();
                 $.ajax({
-                    url: `posts/${id}/comments`,
+                    url: `/posts/${id}/comments`,
                     method: 'POST',
                     dataType: 'json',
                     data,
@@ -105,7 +108,10 @@ $(document).ready(() => {
                             $('#comments-' + id + ' .list-group').prepend(`
                             <div class="list-group-item d-flex align-items-center justify-content-between">
                                 <div>${response.comment}</div>
-                                <img src="${storage(response.avatar)}" class="rounded-circle" height="40" />
+                                <div class="d-flex align-items-center">
+                                    <p class="mr-2">${moment(response.created_at).format('DD MMM YYYY')}</p>
+                                    <img src="${storage(response.avatar)}" class="rounded-circle" height="40" />
+                                </div>
                             </div>
                             `)
                             $form.find('[type="submit"]').html(text).removeAttr('disabled');
@@ -121,7 +127,7 @@ $(document).ready(() => {
     $('[data-like-post]').click(function () {
         let post_id = $(this).data('like-post')
         $.ajax({
-            url: `posts/${post_id}/like`,
+            url: `/posts/${post_id}/like`,
             method: 'POST',
             dataType: 'json',
             data: { _token, post_id },

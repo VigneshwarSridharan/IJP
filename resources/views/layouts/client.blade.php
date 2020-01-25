@@ -246,14 +246,15 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+    <script src="{{url('js/lib/jquery-3.4.1.js')}}" ></script>
+    <script src="{{url('js/lib/popper.min.js')}}" ></script>
+    <script src="{{url('js/lib/bootstrap.min.js')}}" ></script>
     <script src="{{url('js/lib/jquery.toast.min.js')}}"></script>
     <script src="{{url('js/lib/select2/select2.full.min.js')}}"></script>
     <script src="https://cdn.tiny.cloud/1/ggcddu7bj27dpcsxm3cwuns5nyvvgnzctq7l3jt6hk2dxp2j/tinymce/5/tinymce.min.js"></script>
     <script src="{{url('js/lib/jquery.validate.js')}}"></script>
     <script src="{{url('js/lib/additional-methods.js')}}"></script>
+    <script src="{{url('js/lib/moment.js')}}"></script>
     <script>
       window.url = (url='') => `{{url('/')}}${(url[0] != '/' ? '/' : '') + url}`;
       window.storage = (url='') => `{{url('/storage')}}${(url[0] != '/' ? '/' : '') + url}`;

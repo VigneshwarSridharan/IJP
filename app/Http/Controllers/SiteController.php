@@ -229,21 +229,48 @@ class SiteController extends Controller
 
     public function category($category) {
         $category = Category::where('slug','=',$category)->get()->first();
-        $Posts  = DB::table('posts')
-                    ->join('users', 'users.id', '=', 'posts.author_id')
-                    ->select('posts.*', 'users.name', 'users.avatar')
+        // $Posts  = DB::table('posts')
+        //             ->join('users', 'users.id', '=', 'posts.author_id')
+        //             ->select('posts.*', 'users.name', 'users.avatar')
+        //             ->where([
+        //                 ['posts.status','=','PUBLISHED'],
+        //                 ['posts.category_id','=',$category->id],
+        //             ])
+        //             ->latest()
+        //             ->get();
+        $posts  = DB::table('posts')
+                    ->select([
+                            'posts.*',
+                            'users.name',
+                            'users.avatar',
+                            DB::raw("COUNT(DISTINCT comments.id) as comments_count"),
+                            DB::raw("COUNT(DISTINCT likes.id) as likes_count"),
+                            DB::raw("COUNT(DISTINCT li.id) as active_like"),
+                            DB::raw("COUNT(DISTINCT com.id) as active_comment"),
+                        ])
+                    ->leftjoin('users', 'users.id', '=', 'posts.author_id')
+                    ->leftjoin('comments', 'posts.id', '=', 'comments.post_id')
+                    ->leftjoin('likes', 'posts.id', '=', 'likes.post_id')
+                    ->leftjoin('likes as li', function($join) {
+                        $join->on('posts.id', '=', 'li.post_id')->on('li.liked_by', '=', DB::raw(Auth::check() ? Auth::user()->id : 'NULL'));
+                    })
+                    ->leftjoin('comments as com', function($join) {
+                        $join->on('posts.id', '=', 'com.post_id')->on('com.comment_by', '=', DB::raw(Auth::check() ? Auth::user()->id : 'NULL'));
+                    })
                     ->where([
                         ['posts.status','=','PUBLISHED'],
                         ['posts.category_id','=',$category->id],
                     ])
+                    ->groupBy('posts.id')
                     ->latest()
-                    ->get();
+                    ->paginate()
+                    ->toArray();
         $toast = [
             "type"=>"info",
             "message" => "someting went wrong. please try again later."
         ];
         // $request->session()->flash('toast', $toast);
-        return view('welcome')->with(['posts'=>$Posts]);
+        return view('welcome')->with(['posts'=>$posts]);
     }
 
     public function posts() {

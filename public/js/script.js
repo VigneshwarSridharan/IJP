@@ -147,7 +147,7 @@ $(document).ready(function () {
     console.log(id);
     $('#post-' + id).modal('show');
     $.ajax({
-      url: "posts/".concat(id, "/comments"),
+      url: "/posts/".concat(id, "/comments"),
       dataType: 'json',
       success: function success(_ref) {
         var status = _ref.status,
@@ -155,7 +155,7 @@ $(document).ready(function () {
 
         if (status == 'success') {
           $('#comments-' + id).html("\n                        <div class=\"list-group mb-3\">\n                        ".concat(response.map(function (item) {
-            return "\n                                    <div class=\"list-group-item d-flex align-items-center justify-content-between\">\n                                        <div>".concat(item.comment, "</div>\n                                        <img src=\"").concat(storage(item.avatar), "\" class=\"rounded-circle\" height=\"40\" />\n                                    </div>\n                                    ");
+            return "\n                                    <div class=\"list-group-item d-flex align-items-center justify-content-between\">\n                                        <div>".concat(item.comment, "</div>\n                                        <div class=\"d-flex align-items-center\">\n                                            <small class=\"mr-2\">").concat(moment(item.created_at).format('DD MMM YYYY'), "</small>\n                                            <img src=\"").concat(storage(item.avatar), "\" class=\"rounded-circle\" height=\"40\" />\n                                        </div>\n                                    </div>\n                                    ");
           }).join(''), "\n                        </div>"));
         }
 
@@ -183,7 +183,7 @@ $(document).ready(function () {
         var data = $form.serializeArray();
         var id = $form.find('[name="post_id"]').val();
         $.ajax({
-          url: "posts/".concat(id, "/comments"),
+          url: "/posts/".concat(id, "/comments"),
           method: 'POST',
           dataType: 'json',
           data: data,
@@ -193,7 +193,7 @@ $(document).ready(function () {
             form.reset();
 
             if (status == 'success') {
-              $('#comments-' + id + ' .list-group').prepend("\n                            <div class=\"list-group-item d-flex align-items-center justify-content-between\">\n                                <div>".concat(response.comment, "</div>\n                                <img src=\"").concat(storage(response.avatar), "\" class=\"rounded-circle\" height=\"40\" />\n                            </div>\n                            "));
+              $('#comments-' + id + ' .list-group').prepend("\n                            <div class=\"list-group-item d-flex align-items-center justify-content-between\">\n                                <div>".concat(response.comment, "</div>\n                                <div class=\"d-flex align-items-center\">\n                                    <p class=\"mr-2\">").concat(moment(response.created_at).format('DD MMM YYYY'), "</p>\n                                    <img src=\"").concat(storage(response.avatar), "\" class=\"rounded-circle\" height=\"40\" />\n                                </div>\n                            </div>\n                            "));
               $form.find('[type="submit"]').html(text).removeAttr('disabled');
               var count = Number($('.post-info .comment-' + id).eq(0).find('span').text());
               $('.post-info .comment-' + id).addClass('text-primary').find('span').text(count + 1);
@@ -206,7 +206,7 @@ $(document).ready(function () {
   $('[data-like-post]').click(function () {
     var post_id = $(this).data('like-post');
     $.ajax({
-      url: "posts/".concat(post_id, "/like"),
+      url: "/posts/".concat(post_id, "/like"),
       method: 'POST',
       dataType: 'json',
       data: {

@@ -4,6 +4,14 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-8">
+                <ul class="nav nav-tabs user-posts-filter" id="post-filter" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/profile" >Your Submission</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/reviews" >Your Review</a>
+                    </li>
+                </ul>
                 <div class="btn-group mb-3">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-filter"></i> 
@@ -42,7 +50,7 @@
                             <tbody>
                                 @foreach ($posts['data'] as $key => $post)
                                     <tr>
-                                        <th scope="row">{{$post->id}}</th>
+                                        <td scope="row">{{$post->id}}</td>
                                         <td>{{$post->title}}</td>
                                         <td class="text-capitalize">
                                             <span class="badge @if($post->status == 'PUBLISHED') badge-primary @elseif($post->status == 'PENDING') badge-warning @elseif($post->status == 'REJECTED') badge-danger @elseif($post->status == 'DRAFT') badge-secondary @endif ">

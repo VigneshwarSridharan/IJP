@@ -14,6 +14,14 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-sm-8">
+                <ul class="nav nav-tabs user-posts-filter" id="post-filter" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/profile" >Your Submission</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/profile/reviews" >Your Review</a>
+                    </li>
+                </ul>
                 <div class="btn-group mb-3">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-filter"></i> 
@@ -40,7 +48,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Title</th>
+                                    <th scope="col">Category</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -48,8 +58,10 @@
                             <tbody>
                                 @foreach ($posts['data'] as $key => $post)
                                     <tr>
-                                        <th scope="row">{{$post->id}}</th>
+                                        <td scope="row">{{$post->id}}</td>
+                                        <td><img src="{{url('storage/'.$post->image)}}" height="50" alt="{{$post->title}}" /></td>
                                         <td>{{$post->title}}</td>
+                                        <td>{{$post->category_name}}</td>
                                         <td class="text-capitalize">
                                             <span class="badge @if($post->status == 'PUBLISHED') badge-primary @elseif($post->status == 'PENDING') badge-warning @elseif($post->status == 'REJECTED') badge-danger @elseif($post->status == 'DRAFT') badge-secondary @endif ">
                                                 @if($post->status == 'PUBLISHED') Approved @elseif($post->status == 'PENDING') Under Review @elseif($post->status == 'REJECTED') Rejected @endif

@@ -107,9 +107,11 @@ class ProfileController extends Controller
         $posts  = DB::table('posts')
                 ->select([
                         'posts.*',
+                        "categories.name as category_name",
                         'reviews.review'
                     ])
                 ->leftjoin('reviews','reviews.post_id','=','posts.id')
+                ->leftjoin('categories','posts.category_id','=','categories.id')
                 // ->whereNull('posts.reviewed_by')
                 ->where($where)
                 ->orWhere($orWhere)

@@ -6,5 +6,6 @@
     "/js/site/profile.js": "/js/site/profile.js",
     "/js/site/review.js": "/js/site/review.js",
     "/js/site/welcome.js": "/js/site/welcome.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/css/review.css": "/css/review.css"
 }

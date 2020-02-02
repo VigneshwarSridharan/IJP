@@ -10,6 +10,10 @@
     }
 @endphp
 
+@push('styles')
+    <link rel="stylesheet" href="{{url('css/review.css')}}" />
+@endpush
+
 @section('content')
     <div class="container-fluid mt-3">
         <div class="row">
@@ -24,63 +28,30 @@
                         </li>
                     </ul>
                 @endif
-                <div class="btn-group mb-3">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-filter"></i> 
-                        @if($status == '')
-                            All ( {{$info->published+$info->pending+$info->rejected}} )
-                        @elseif($status == 'published')
-                            Approved ( {{$info->published}} )
-                        @elseif($status == 'pending')
-                            Under Review ( {{$info->pending}} )
-                        @elseif($status == 'rejected')
-                            Rejected ( {{$info->rejected}} )
-                        @endif
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item {{$status == '' ? 'active' : ''}}" href="/profile/reviews">All ( {{$info->published+$info->pending+$info->rejected}} )</a>
-                        <a class="dropdown-item {{$status == 'published' ? 'active' : ''}}" href="/profile/reviews/status/published">Approved ( {{$info->published}} )</a>
-                        <a class="dropdown-item {{$status == 'pending' ? 'active' : ''}}" href="/profile/reviews/status/pending">Under Review ( {{$info->pending}} )</a>
-                        <a class="dropdown-item {{$status == 'rejected' ? 'active' : ''}}" href="/profile/reviews/status/rejected">Rejected ( {{$info->rejected}} )</a>
-                    </div>
+                <div class="post-grid-wrppaer row no-gutters">
+                    @foreach ($posts['data'] as $key => $post)
+                        <div class="col-sm-3 p-2">
+                            <div class="post-grid">
+                                <div class="content">
+                                    <img src="{{url('storage/'.$post->image)}}" alt="{{$post->title}}" class="w-100" />
+                                    <span class="text-capitalize badge @if($post->status == 'PUBLISHED') badge-primary @elseif($post->status == 'PENDING') badge-warning @elseif($post->status == 'REJECTED') badge-danger @elseif($post->status == 'DRAFT') badge-secondary @endif ">
+                                        <i class="fas fa-circle mr-1"></i> @if($post->status == 'PUBLISHED') Approved @elseif($post->status == 'PENDING') Under Review @elseif($post->status == 'REJECTED') Rejected @endif
+                                    </span>
+                                </div>
+                                <div class="overlay" @if($post->status == "DRAFT") data-edit="{{$post->id}}" @else data-post="{{$post->id}}" @endif>
+                                    {{$post->status == "DRAFT" ? 'Edit' :'View'}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($posts['data'] as $key => $post)
-                                    <tr>
-                                        <td scope="row">{{$post->id}}</td>
-                                        <td><img src="{{url('storage/'.$post->image)}}" height="50" alt="{{$post->title}}" /></td>
-                                        <td>{{$post->title}}</td>
-                                        <td>{{$post->category_name}}</td>
-                                        <td class="text-capitalize">
-                                            <span class="badge @if($post->status == 'PUBLISHED') badge-primary @elseif($post->status == 'PENDING') badge-warning @elseif($post->status == 'REJECTED') badge-danger @elseif($post->status == 'DRAFT') badge-secondary @endif ">
-                                                @if($post->status == 'PUBLISHED') Approved @elseif($post->status == 'PENDING') Under Review @elseif($post->status == 'REJECTED') Rejected @endif
-                                            </span>
-                                        </td>
-                                        <td><a href="javascript:void(0)" @if($post->status == "DRAFT") data-edit="{{$post->id}}" @else data-post="{{$post->id}}" @endif>{{$post->status == "DRAFT" ? 'Edit' :'View'}}</a></td>
-                                    </tr>
-                                @endforeach
-                                @if(count($posts['data']) == 0)
-                                    <tr>
-                                        <td colspan="4" class="text-center">No results found</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+                @if(count($posts['data']) == 0)
+                    <div class="card mb-3 post-item">
+                        <div class="card-body text-center">
+                            <h3>No results found</h3>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
             <div class="col-sm-4">
                 <div class="card">
@@ -146,13 +117,17 @@
                         <h4 class="title">{{$post->title}}</h4>
                         <p class="excerpt">{{$post->excerpt }}</p>
                         <img src="{{ url('storage/'.$post->image) }}" class="img-fluid rounded mb-3" />
+                        <span class="text-capitalize badge badge-lg badge-primary mb-2">
+                            <i class="fas fa-circle mr-1"></i> {{$post->category_name}}
+                        </span>
+                        
                         {!!$post->body!!}
 
                         @if($post->status == "PENDING")
                             <h4>Review comment</h4>
                             <div class="card">
                                 <div class="card-body">
-                                    <form id="review-comment" method="POST" action="/posts/{{$post->id}}/review">
+                                    <form class="review-comment" method="POST" action="/posts/{{$post->id}}/review">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="post_id" value="{{$post->id}}" />
                                         <div class="form-group">
@@ -160,12 +135,12 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="status1" name="status" class="custom-control-input" value="PUBLISHED" required>
-                                                <label class="custom-control-label" for="status1">Accept</label>
+                                                <input type="radio" id="status-{{$post->id}}-1" name="status" class="custom-control-input" value="PUBLISHED" required>
+                                                <label class="custom-control-label" for="status-{{$post->id}}-1">Accept</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="status2" name="status" class="custom-control-input" value="REJECTED" required>
-                                                <label class="custom-control-label" for="status2">Reject</label>
+                                                <input type="radio" id="status-{{$post->id}}-2" name="status" class="custom-control-input" value="REJECTED" required>
+                                                <label class="custom-control-label" for="status-{{$post->id}}-2">Reject</label>
                                             </div>
                                         </div>
 
@@ -192,6 +167,7 @@
 @endsection
 
 @push('scripts')
+    <script src="{{url('js/lib/isotope-docs.min.js')}}"></script>
     <script src="{{url('js/site/profile.js')}}"></script>
     <script src="{{url('js/site/review.js')}}"></script>
 @endpush

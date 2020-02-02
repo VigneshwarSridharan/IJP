@@ -11,5 +11,8 @@ $(document).ready(function() {
             unhighlight: function (element, errorClass, validClass) {
                 $(element).removeClass('is-invalid');
             },
-    })
+    });
+
+
+    $('.post-grid-wrppaer').isotope()
 });

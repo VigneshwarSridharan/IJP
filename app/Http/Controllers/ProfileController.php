@@ -72,7 +72,6 @@ class ProfileController extends Controller
         ];
         $orWhere = [
             ['reviews.reviewed_by','=',Auth::user()->id],
-            
         ];
         
         $profile =  DB::table('posts')

@@ -1,0 +1,37 @@
+.post-grid-wrppaer {
+    .post-grid {
+        overflow: hidden;
+        position: relative;
+        .content {
+            position: relative;
+            transition: all .25s ease;
+            span {
+                position: absolute;
+                bottom: 1rem;
+                left: 1rem;
+            }
+        }
+        .overlay {
+            cursor: pointer;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2rem;
+            background-color: #2c7aff;
+            line-height: 2rem;
+            text-align: center;
+            color: #fff;
+            transform: translateY(2rem);
+            transition: all .25s ease;
+        }
+        &:hover {
+            .content {
+                transform: translateY(-2rem);
+            }
+            .overlay {
+                transform: none;
+            }
+        }
+    }
+}

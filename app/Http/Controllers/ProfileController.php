@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Star;
+use App\Review;
+use App\Rating;
 use Carbon\Carbon;
+use TCG\Voyager\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -67,82 +71,61 @@ class ProfileController extends Controller
 
     public function reviews($status="") {
 
-        $where = [
-            ['posts.status','=','PENDING']
-        ];
-        $orWhere = [
-            ['reviews.reviewed_by','=',Auth::user()->id],
-        ];
+        $reviewList  = Review::select(['posts.*','reviews.*'])
+                            ->where('reviews.reviewed_by', '=', Auth::user()->id)
+                            ->leftjoin('posts','posts.id','=','reviews.post_id')
+                            ->paginate()
+                            ->toArray();
         
-        $profile =  DB::table('posts')
-                        ->select([
-                            DB::raw('SUM(status = "PUBLISHED") as published'),
-                            DB::raw('SUM(status = "DRAFT") as draft'),
-                            DB::raw('SUM(status = "PENDING") as pending'),
-                            DB::raw('SUM(status = "REJECTED") as rejected'),
-                        ])
-                        ->where('author_id','=',Auth::user()->id)
-                        ->first();
+        return view('test')->with([
+            'posts' => $reviewList
+            ]);
+    }
 
-        $info =  DB::table('posts')
-                        ->select([
-                            DB::raw('SUM(posts.status = "PUBLISHED") as published'),
-                            DB::raw('SUM(posts.status = "PENDING") as pending'),
-                            DB::raw('SUM(posts.status = "REJECTED") as rejected'),
-                        ])
-                        ->leftjoin('reviews','reviews.post_id','=','posts.id')
-                        ->where($where)
-                        ->orWhere($orWhere)
-                        ->first();
-                        
-        // dd($info);
-        if($status) {
-            $orWhere[] = ['posts.status','=',strtoupper($status)];
-            if($status != 'pending') {
-                $where = [];
-            }
+    public function updateReviews($post_id,$id) {
+        $post = DB::table('posts')
+            ->select('posts.*', 'categories.name as category')
+            ->where('posts.id','=',$post_id)
+            ->leftjoin('categories','categories.id','=','posts.category_id')
+            ->first();
+
+        $stars = Star::where('post_id','=',$post_id)->get()->toArray();
+        
+        if(count($stars) > 0) {
+            $ratings = DB::table('ratings')
+                ->select(['ratings.*','stars.post_id','stars.stars'])
+                ->leftjoin('stars','stars.rating_id','=','ratings.id')
+                ->where('stars.post_id','=',$post_id)
+                ->get(); 
+        }
+        else {
+
+            $ratings = Rating::all();
         }
 
-        $posts  = DB::table('posts')
-                ->select([
-                        'posts.*',
-                        "categories.name as category_name",
-                        'reviews.review'
-                    ])
-                ->leftjoin('reviews','reviews.post_id','=','posts.id')
-                ->leftjoin('categories','posts.category_id','=','categories.id')
-                // ->whereNull('posts.reviewed_by')
-                ->where($where)
-                ->orWhere($orWhere)
-                ->groupBy('posts.id')
-                ->latest()
-                ->paginate()
-                ->toArray();
-                
-        // dd($posts);
-        // $result= [];
-        // $result['published'] = $posts->filter(function($item) {
-        //     return $item->status == 'PUBLISHED' ? TRUE : FALSE;
-        // })->toArray();
-        
-        // $result['pending'] = $posts->filter(function($item) {
-        //     return $item->status == 'PENDING' ? TRUE : FALSE;
-        // })->toArray();
-        
-        // $result['rejected'] = $posts->filter(function($item) {
-        //     return $item->status == 'REJECTED' ? TRUE : FALSE;
-        // })->toArray();
 
-        // $result['draft'] = $posts->filter(function($item) {
-        //     return $item->status == 'DRAFT' ? TRUE : FALSE;
-        // })->toArray();
+        $review = Review::find($id);
+        // dd(count($stars));
+        return view('admin.reviewForm')->with([
+            'post'=>$post,
+            'ratings'=>$ratings,
+            'review'=>$review
+        ]);
+    }
 
-        return view('profile.reviews')->with([
-            'posts' => $posts,
-            'status' => $status,
-            'profile' => $profile,
-            'info' => $info
-            ]);
+    public function submitReviews(Request $request, $post_id, $id) {
+        $reviewComment = Review::find($id);
+        $reviewComment->review = $request->review;
+        // dd($review);
+        $reviewComment->save();
+        foreach ($request->rating as $rating_id => $stars) {
+            $star = new Star;
+            $star->post_id = $post_id;
+            $star->rating_id = $rating_id;
+            $star->stars = $stars;
+            $star->save();
+        }
+        return redirect()->route('voyager.reviews.index');
     }
 
     public function update(Request $request) {

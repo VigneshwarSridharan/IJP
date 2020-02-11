@@ -31,7 +31,7 @@
             </ul>
             @if(Auth::check())
                 <ul class="navbar-nav ml-auto user-navs d-flex align-items-center">
-                    @if(!Auth::guest() && Auth::user()->hasPermission('browse_admin'))
+                    @if(!Auth::guest() && Auth::user()->hasPermission('browse_admin') && Auth::user()->role->name != 'reviewer'  || Auth::user()->role->name == 'reviewer' && Auth::user()->reviewer_verify == "VERIFIED")
                         <li class="nav-item ml-3">
                             <a href="/admin" target="_blank" class="btn btn-primary" ><small class="fab fa-trello mr-2"></small> Dashboard</a>
                         </li>

@@ -71,10 +71,14 @@ Route::get('/logout', function() {
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/admin/posts',function() {
-        return 'sdfdsfsf';
-    });
     Voyager::routes();
+    Route::get('/reviews','ProfileController@reviews')->name('voyager.reviews.index');
+    Route::get('/reviews/edit/{post_id}/{id}','ProfileController@updateReviews')->name('voyager.reviews.edit');
+    Route::post('/reviews/edit/{post_id}/{id}','ProfileController@submitReviews');
+    Route::get('/posts/{id}/assign','ReviewController@assign')->name('assignToReviewer');
+    Route::post('/posts/{id}/assign','ReviewController@assignToReviewer');
+    Route::get('/posts/{id}/reviews','ReviewController@reviews')->name('reviewsList');
+    Route::post('/posts/{id}/reviews','ReviewController@changeStatus');
 });
 
 Route::get ( '/callback/{service}', 'SocialAuthController@callback' );

@@ -21,7 +21,7 @@
                 <div class="panel-body">
                     <div class="form-group">
                     <label>Select Reviewer</label>
-                        <select class="form-control select2-ajax select2-hidden-accessible" name="approved_by[]" data-get-items-route="http://localhost:8000/admin/comments/relation" data-get-items-field="comment_belongsto_user_relationship" data-method="edit" data-select2-id="1" tabindex="-1" aria-hidden="true" multiple>
+                        <select class="form-control select2-ajax select2-hidden-accessible" name="approved_by[]" data-get-items-route="{{url('/admin/comments/relation')}}" data-get-items-field="comment_belongsto_user_relationship" data-method="edit" data-select2-id="1" tabindex="-1" aria-hidden="true" multiple>
                             @foreach ($reviews  as $review)
                                 <option value="{{$review->reviewed_by}}" selected="selected">{{$review->name}}</option>
                             @endforeach

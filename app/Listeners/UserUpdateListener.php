@@ -39,11 +39,11 @@ class UserUpdateListener
                 'name' => $user->name,
                 'token' => $token
             ];
-            Mail::send('mail.reviewerVerify', $mailData, function($message) use ($user,$token) {
-                $message->to($user->email, $user->name)
-                        ->subject('Reviewer Role');
-                $message->from(setting('site.email'),setting('site.title'));
-            });
+            // Mail::send('mail.reviewerVerify', $mailData, function($message) use ($user,$token) {
+            //     $message->to($user->email, $user->name)
+            //             ->subject('Reviewer Role');
+            //     $message->from(setting('site.email'),setting('site.title'));
+            // });
         }
     }
 }

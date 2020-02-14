@@ -115,12 +115,12 @@ class SiteController extends Controller
         // $newUser->settings = '{"locale":"en"}';
         $newUser->save();
 
-        $mailData= ['name' => $newUser->name];
-        Mail::send('mail.basic', $mailData, function($message) use ($newUser) {
-            $message->to($newUser->email, $newUser->name)
-                    ->subject(setting('site.title'));
-            $message->from(setting('site.email'),setting('site.title'));
-        });
+        // $mailData= ['name' => $newUser->name];
+        // Mail::send('mail.basic', $mailData, function($message) use ($newUser) {
+        //     $message->to($newUser->email, $newUser->name)
+        //             ->subject(setting('site.title'));
+        //     $message->from(setting('site.email'),setting('site.title'));
+        // });
 
 
         Auth::login($newUser);
@@ -347,17 +347,17 @@ class SiteController extends Controller
         
         $review->save();
         $post->save();
-        if($post->status == "PUBLISHED") {
-            $mailData= [
-                'name' => $user->name,
-                'title' => $post->title
-            ];
-            Mail::send('mail.postApproved', $mailData, function($message) use ($user) {
-                $message->to($user->email, $user->name)
-                        ->subject('Post Submission');
-                $message->from(setting('site.email'),setting('site.title'));
-            });
-        }
+        // if($post->status == "PUBLISHED") {
+        //     $mailData= [
+        //         'name' => $user->name,
+        //         'title' => $post->title
+        //     ];
+        //     Mail::send('mail.postApproved', $mailData, function($message) use ($user) {
+        //         $message->to($user->email, $user->name)
+        //                 ->subject('Post Submission');
+        //         $message->from(setting('site.email'),setting('site.title'));
+        //     });
+        // }
         
         return redirect()->back();
     }
@@ -423,17 +423,17 @@ class SiteController extends Controller
 
         $post->save();
 
-        if($post->status == 'PENDING') {
-            $mailData= [
-                'name' => $user->name,
-                'title' => $post->title
-            ];
-            Mail::send('mail.postSubmit', $mailData, function($message) use ($user) {
-                $message->to($user->email, $user->name)
-                        ->subject('Post Submission');
-                $message->from(setting('site.email'),setting('site.title'));
-            });
-        }
+        // if($post->status == 'PENDING') {
+        //     $mailData= [
+        //         'name' => $user->name,
+        //         'title' => $post->title
+        //     ];
+        //     Mail::send('mail.postSubmit', $mailData, function($message) use ($user) {
+        //         $message->to($user->email, $user->name)
+        //                 ->subject('Post Submission');
+        //         $message->from(setting('site.email'),setting('site.title'));
+        //     });
+        // }
 
 
         $toast = [

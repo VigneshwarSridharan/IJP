@@ -157,4 +157,31 @@ class ProfileController extends Controller
 
 
     }
+
+    public function findReviewer(Request $request)
+    {
+        $result = [
+            "results" => [],
+            "pagination" => [
+                "more" => FALSE
+            ]
+            ];
+        if($request->search) {
+            $result['results'] = User::select(['id','name as text'])
+                ->where([
+                    ['role_id','=',5],
+                    ['reviewer_verify','=','VERIFIED'],
+                    ['name','LIKE','%'.$request->search.'%'],
+                ])->get();
+            return response()->json($result);
+        }
+        else {
+            $result['results'] = User::select(['id','name as text'])
+                ->where([
+                    ['role_id','=',5],
+                    ['reviewer_verify','=','VERIFIED'],
+                ])->get();
+            return response()->json($result);
+        }
+    }
 }

@@ -73,6 +73,7 @@ Route::get('/logout', function() {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::get('/reviews','ProfileController@reviews')->name('voyager.reviews.index');
+    Route::get('/reviewers', 'ProfileController@findReviewer');
     Route::get('/reviews/edit/{post_id}/{id}','ProfileController@updateReviews')->name('voyager.reviews.edit');
     Route::post('/reviews/edit/{post_id}/{id}','ProfileController@submitReviews');
     Route::get('/posts/{id}/assign','ReviewController@assign')->name('assignToReviewer');

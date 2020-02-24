@@ -40,12 +40,12 @@ class SocialAuthController extends Controller
             // $newUser->settings = '{"locale":"en"}';
             $newUser->save();
 
-            $mailData= ['name' => $newUser->name];
-            Mail::send('mail.basic', $mailData, function($message) use ($newUser) {
-                $message->to($newUser->email, $newUser->name)
-                        ->subject(setting('site.title'));
-                $message->from(setting('site.email'),setting('site.title'));
-            });
+            // $mailData= ['name' => $newUser->name];
+            // Mail::send('mail.basic', $mailData, function($message) use ($newUser) {
+            //     $message->to($newUser->email, $newUser->name)
+            //             ->subject(setting('site.title'));
+            //     $message->from(setting('site.email'),setting('site.title'));
+            // });
 
 
             Auth::login($newUser);

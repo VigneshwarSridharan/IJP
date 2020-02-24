@@ -4,6 +4,35 @@
 
 @import "./bootstrap/utilities";
 
+$dashboard: #19b5fe;
+
 .app-footer {
     display: none;
+}
+
+.line-navs {
+    display: flex;
+    margin-bottom: .5rem;
+    .nav {
+        margin-right: .25rem;
+        a {
+            display: inline-block;
+            color: inherit;
+            text-decoration: none;
+            font-weight: bold;
+            padding: .5rem;
+            border-bottom: solid 2px transparent;
+            transition: all .5s ease;
+            &:hover,&:active,&:visited,&:focus {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+        &.active,&:hover {
+            a {
+                color: $dashboard;
+                border-color: $dashboard;
+            }
+        }
+    }
 }

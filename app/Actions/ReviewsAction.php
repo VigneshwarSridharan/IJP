@@ -8,8 +8,11 @@ use App\Review;
 class ReviewsAction extends AbstractAction {
 
     public function getTitle() {
-        $reviews = Review::where('post_id','=',$this->data->id)->get();
-        return ' Reviews '.count($reviews->toArray());
+        $reviews = Review::where('post_id','=',$this->data->id)->get()->toArray();
+        $submited = array_filter($reviews, function($item) {
+            return $item['review'] ? TRUE : FALSE;
+        });
+        return ' Reviews ( '.count($submited).' / '.count($reviews).' )';
     }
 
     public function getIcon() {

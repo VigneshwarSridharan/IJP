@@ -71,14 +71,27 @@ class ProfileController extends Controller
 
     public function reviews($status="") {
 
-        $reviewList  = Review::select(['posts.*','reviews.*'])
-                            ->where('reviews.reviewed_by', '=', Auth::user()->id)
-                            ->leftjoin('posts','posts.id','=','reviews.post_id')
-                            ->paginate()
-                            ->toArray();
+        if($status==""||$status == 'new') {
+            $reviewList  = Review::select(['posts.*','reviews.*'])
+                ->where('reviews.reviewed_by', '=', Auth::user()->id)
+                ->leftjoin('posts','posts.id','=','reviews.post_id')
+                ->where('review','=',NULL)
+                ->paginate()
+                ->toArray();
+        }
+        else {
+            $reviewList  = Review::select(['posts.*','reviews.*'])
+                ->where('reviews.reviewed_by', '=', Auth::user()->id)
+                ->leftjoin('posts','posts.id','=','reviews.post_id')
+                ->where('review','!=',NULL)
+                ->paginate()
+                ->toArray();
+        }
+
         
         return view('test')->with([
-            'posts' => $reviewList
+            'posts' => $reviewList,
+            'status' => $status
             ]);
     }
 

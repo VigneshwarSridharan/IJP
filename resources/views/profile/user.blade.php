@@ -4,16 +4,6 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-lg-8">
-                @if(Auth::user()->role->name == 'reviewer' && Auth::user()->reviewer_verify == "VERIFIED")
-                    <ul class="nav nav-tabs user-posts-filter" id="post-filter" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/profile" >Your Submission</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/profile/reviews" >Your Review</a>
-                        </li>
-                    </ul>
-                @endif
                 <div class="btn-group mb-3">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-filter"></i> 

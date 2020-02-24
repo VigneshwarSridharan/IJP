@@ -113,6 +113,10 @@ class ReviewController extends Controller
             $review->save();
 
         }
+
+        $post = Post::find($id);
+        $post->status = 'ASSIGNED';
+        $post->save();
         
         return redirect()->route('reviewsList',[$id]);
     }

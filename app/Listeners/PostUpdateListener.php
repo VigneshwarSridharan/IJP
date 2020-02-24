@@ -36,15 +36,15 @@ class PostUpdateListener
                 $user = User::find($post->author_id);
                 $post->reviewed_by = Auth::user()->id;
                 $post->save();
-                // $mailData= [
-                //     'name' => $user->name,
-                //     'title' => $post->title
-                // ];
-                // Mail::send('mail.postApproved', $mailData, function($message) use ($user) {
-                //     $message->to($user->email, $user->name)
-                //             ->subject('Post Submission');
-                //     $message->from(setting('site.email'),setting('site.title'));
-                // });
+                $mailData= [
+                    'name' => $user->name,
+                    'title' => $post->title
+                ];
+                Mail::send('mail.postApproved', $mailData, function($message) use ($user) {
+                    $message->to($user->email, $user->name)
+                            ->subject('Post Submission');
+                    $message->from(setting('site.email'),setting('site.title'));
+                });
             }
         }
     }

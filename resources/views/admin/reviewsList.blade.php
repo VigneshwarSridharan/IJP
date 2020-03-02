@@ -16,7 +16,7 @@
         @include('voyager::alerts')
         <div class="panel panel-bordered">
             <div class="panel-body">
-                @if($post->status == 'PENDING')
+                @if($post->status == 'ASSIGNED')
                     <div class="d-flex justify-content-end mb-3">
                         <form method="POST">
                             {{ csrf_field() }}

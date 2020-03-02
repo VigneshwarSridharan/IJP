@@ -71,28 +71,57 @@ class ProfileController extends Controller
 
     public function reviews($status="") {
 
+        $ratings = Rating::all()
+            ->toArray();
+
+        // $ratings = array_map(funtion($item) { }, $ratings);
+        $ratings = array_map(function($item) {
+            $item['stars'] = 0;
+            return $item;
+        }, $ratings);
+        $where = [];
+
+        // dd($ratings);
         if($status==""||$status == 'new') {
-            $reviewList  = Review::select(['posts.*','reviews.*'])
-                ->where('reviews.reviewed_by', '=', Auth::user()->id)
-                ->leftjoin('posts','posts.id','=','reviews.post_id')
-                ->where('review','=',NULL)
-                ->paginate()
-                ->toArray();
+            $where[] = ['review','=',NULL];
         }
         else {
-            $reviewList  = Review::select(['posts.*','reviews.*'])
-                ->where('reviews.reviewed_by', '=', Auth::user()->id)
-                ->leftjoin('posts','posts.id','=','reviews.post_id')
-                ->where('review','!=',NULL)
-                ->paginate()
-                ->toArray();
+            $where[] = ['review','!=',NULL];
         }
+        $reviewList  = Review::select(['posts.*','reviews.*'])
+            ->where('reviews.reviewed_by', '=', Auth::user()->id)
+            ->leftjoin('posts','posts.id','=','reviews.post_id')
+            ->where($where)
+            ->paginate()
+            ->toArray();
+        $post_ids = array_map(function($item) {
+            return $item['post_id'];
+        },$reviewList['data']);
 
+        $stars = Star::select(['ratings.id','ratings.rating_name','stars.post_id','stars.stars'])
+            ->whereIn('post_id',$post_ids)
+            ->leftjoin('ratings','ratings.id','=','stars.rating_id')
+            ->get()
+            ->toArray();
+        $reviewList['data'] = array_map(function($item) use($stars,$ratings) {
+            $filterStars = array_filter($stars,function($fItem) use($item) {
+                return $fItem['post_id'] == $item['post_id'];
+            });
+            if(count($filterStars)) {
+                $item['ratings'] = $filterStars;
+            }
+            else {
+                $item['ratings'] = $ratings;
+            }
+            return $item;
+        },$reviewList['data']);
+        // dd($reviewList['data']);
         
         return view('test')->with([
             'posts' => $reviewList,
-            'status' => $status
-            ]);
+            'status' => $status,
+            'ratings' => $ratings
+        ]);
     }
 
     public function updateReviews($post_id,$id) {
@@ -102,7 +131,9 @@ class ProfileController extends Controller
             ->leftjoin('categories','categories.id','=','posts.category_id')
             ->first();
 
-        $stars = Star::where('post_id','=',$post_id)->get()->toArray();
+        $stars = Star::where('post_id','=',$post_id)
+            ->get()
+            ->toArray();
         
         if(count($stars) > 0) {
             $ratings = DB::table('ratings')
@@ -138,6 +169,11 @@ class ProfileController extends Controller
             $star->stars = $stars;
             $star->save();
         }
+
+        $post = Post::find($post_id);
+        $post->status = 'REVIEWED';
+        $post->save();
+
         return redirect()->route('voyager.reviews.index');
     }
 

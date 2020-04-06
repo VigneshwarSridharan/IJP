@@ -7,6 +7,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use \TCG\Voyager\Events\BreadDataUpdated;
+use \TCG\Voyager\Events\BreadDataAdded;
 use App\Listeners\PostUpdateListener;
 use App\Listeners\UserUpdateListener;
 
@@ -23,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         BreadDataUpdated::class => [
             PostUpdateListener::class,
+            UserUpdateListener::class,
+        ],
+        BreadDataAdded::class => [
             UserUpdateListener::class,
         ]
     ];

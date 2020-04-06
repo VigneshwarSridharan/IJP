@@ -123,7 +123,7 @@ class ReviewController extends Controller
 
     public function reviews(Request $request, $id) {
         $post = DB::table('posts')->where('id','=',$id)->first();
-        $reviews = Review::select(['posts.title','users.name as reviewer','reviews.review'])
+        $reviews = Review::select(['posts.title','users.name as reviewer','reviews.review','reviews.id'])
                             ->where('reviews.post_id','=',$id)
                             ->where('reviews.review','!=', NULL)
                             ->leftjoin('posts','posts.id', "=", "reviews.post_id")

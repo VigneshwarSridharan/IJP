@@ -16,7 +16,7 @@
         @include('voyager::alerts')
         <div class="panel panel-bordered">
             <div class="panel-body">
-                @if($post->status == 'ASSIGNED')
+                @if($post->status == 'REVIEWED')
                     <div class="d-flex justify-content-end mb-3">
                         <form method="POST">
                             {{ csrf_field() }}
@@ -40,7 +40,7 @@
                                         <td>{{$review[$column]}}</td>
                                     @endforeach
                                     <td>
-                                        <a href="{{route('voyager.reviews.edit',[11,13])}}" class="btn btn-sm btn-primary pull-right">View</a>
+                                        <a href="{{route('voyager.reviews.edit',[$post->id , $review->id])}}" class="btn btn-sm btn-primary pull-right">View</a>
                                     </td>
                                 </tr>
                             @endforeach
